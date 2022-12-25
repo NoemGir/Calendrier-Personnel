@@ -1,7 +1,8 @@
-package GestionBoutique;
+package main;
 
 public class Article {
 	
+	// A completer...
 	private int prix;
 
 	public Article(int prix) {
