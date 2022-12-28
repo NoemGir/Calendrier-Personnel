@@ -2,13 +2,7 @@ package test;
 
 
 import java.util.GregorianCalendar;
-
-import main.Calendrier;
-import main.Controleur;
-import main.Display;
-import main.Evenement;
-import main.Main;
-import main.Tache;
+import main.*;
 
 
 public class Scenarios {
@@ -31,7 +25,7 @@ public class Scenarios {
 		Evenement event2 = new Evenement(new GregorianCalendar(2023, 1, 1), "evenement 2");
 		controleur.creerSousTache(tache1, "sous Tache 1");
 		controleur.creerSousTache(tache1, "sous Tache 2");
-		controleur.creerSousTache(tache2, "sous tache 2");
+		controleur.creerSousTache(tache2, "sous tache 3");
 		
 		 utilisateur.getCalendrier().ajouterPlan(tache1);
 		 utilisateur.getCalendrier().ajouterPlan(tache2);
@@ -48,6 +42,12 @@ public class Scenarios {
 	
 	public void afficherPlanUnJour() {
 		utilisateur.getCalendrier().afficherPlanDeUnJour(new GregorianCalendar(2023, 1, 2));
+	}
+	
+	public void verificationFonctionMiseEnFormatFichier() {
+		CommandeShell cs = CommandeShell.getInstance();
+		Calendrier calendrier = utilisateur.getCalendrier();
+	    System.out.println(cs.toStringFichier(cs.mettreTableauPlanFormatCSV(calendrier.getPlan(), calendrier.getNbPlan()), calendrier.getNbPlan()));
 	}
 	
 	public void modifierDateDeUnPlan() {
@@ -68,8 +68,9 @@ public class Scenarios {
 		Scenarios testScenario = new Scenarios();
 		
 	//	testScenario.affichageDesPlans();
-		testScenario.afficherPlanUnJour();
+		//testScenario.afficherPlanUnJour();
 	//	testScenario.modifierDateDeUnPlan();
+		testScenario.verificationFonctionMiseEnFormatFichier();
 	}
 	
 }

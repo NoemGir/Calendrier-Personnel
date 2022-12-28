@@ -29,7 +29,7 @@ public class Tache extends Plan {
 	public void afficherPlanComplet() {
 
 		Display.display(" --- Tache " + returnIndicationSiTacheTerminee() + " ---\n");
-		affichageComplet();
+		super.affichageComplet();
 		afficherSousTaches();
 	}
 
@@ -39,8 +39,10 @@ public class Tache extends Plan {
 			for (int i = 0; i < nbSousTache; i++) {
 				sousTaches[i].afficherPlan(i + 1);
 			}
-			Display.display(" Aucune sous-tache enregistrée\n");
 		}
+		else {
+			Display.display(" Aucune sous-tache enregistrée\n");
+		}	
 	}
 
 	public String returnIndicationSiTacheTerminee() {

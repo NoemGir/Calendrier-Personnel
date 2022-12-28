@@ -2,7 +2,7 @@
  * 
  */
 /**
- * @author noemi
+ * @author noemgireaud
  *
  */
 module Projet {

@@ -21,9 +21,15 @@ public class Display {
 
 	public static void displayMainMenu(GregorianCalendar calendrier) {
 		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE d MMMM yyyy");
-		GregorianCalendar calAffichage = (GregorianCalendar) calendrier.clone();
+		
 		GregorianCalendar jourActuel = GregorianCalendar.from(getLocalDate().atStartOfDay(ZoneId.systemDefault()));
+		SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE d MMMM yyyy");
+
+		if (calendrier == null) {
+			calendrier = (GregorianCalendar) jourActuel.clone();
+		}
+
+		GregorianCalendar calAffichage = (GregorianCalendar) calendrier.clone();
 
 		display(" --- Menu principal : --- \n");
 
@@ -272,7 +278,7 @@ public class Display {
 
 	public static void displayMenuModifierSousTache(Tache tacheModifiee, int numTache, int numSousTache) {
 
-		GregorianCalendar jourActuel = GregorianCalendar.from(getLocalDate().atStartOfDay(ZoneId.systemDefault()));
+
 		SousTache sousTacheAModifier = tacheModifiee.getSousTaches()[numSousTache];
 
 		sousTacheAModifier.afficherPlanComplet();
@@ -307,7 +313,7 @@ public class Display {
 			displayMenuModifierPlan(tacheModifiee, numTache);
 			break;
 		case "6":
-			displayMainMenu(jourActuel);
+			displayMainMenu(null);
 			break;
 		case "7":
 			System.exit(0);
@@ -321,7 +327,6 @@ public class Display {
 
 	public static void displayInfoSousTacheFinie(Tache tache, int numTache, int numSousTache) {
 
-		GregorianCalendar jourActuel = GregorianCalendar.from(getLocalDate().atStartOfDay(ZoneId.systemDefault()));
 		SousTache sousTacheTerminee = tache.getSousTaches()[numSousTache];
 		
 		sousTacheTerminee.afficherPlanComplet();
@@ -339,7 +344,7 @@ public class Display {
 			displayMenuModifierPlan(tache, numTache);
 			break;
 		case "2":
-			displayMainMenu(jourActuel);
+			displayMainMenu(null);
 			break;
 		case "3":
 			System.exit(0);
@@ -353,7 +358,6 @@ public class Display {
 
 	public static void displayMenuInfoPerso() {
 		
-		GregorianCalendar jourActuel = GregorianCalendar.from(getLocalDate().atStartOfDay(ZoneId.systemDefault()));
 		Main main = controleur.getMain();
 		
 		display("--- information personnelles ---\n");
@@ -381,7 +385,7 @@ public class Display {
 			displayMenuInfoPerso();
 			break;
 		case "3":
-			displayMainMenu(jourActuel);
+			displayMainMenu(null);
 			break;
 		default:
 			controleur.messageErreur();
@@ -440,8 +444,6 @@ public class Display {
 
 	private static String inputOutput(String message) {
 		
-		GregorianCalendar jourActuel = GregorianCalendar.from(getLocalDate().atStartOfDay(ZoneId.systemDefault()));
-		
 		display(message);
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
@@ -450,7 +452,7 @@ public class Display {
 			returnString = br.readLine();
 		} catch (IOException e) {
 			display("Erreur lors de la lecture\n");
-			displayMainMenu(jourActuel);
+			displayMainMenu(null);
 		}
 		return returnString;
 	}

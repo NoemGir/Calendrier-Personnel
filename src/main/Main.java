@@ -67,9 +67,7 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-		LocalDate localDate = LocalDate.now();
-		GregorianCalendar jourActuel = GregorianCalendar.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-		Display.displayMainMenu(jourActuel);
+		Display.displayMainMenu(null);
 	}
 
 }
