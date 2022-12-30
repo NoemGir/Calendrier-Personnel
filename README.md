@@ -1,25 +1,24 @@
 # Projet
-Projet Java / Ocaml - Ingénierie des logiciels et utilisabilité - Licence informatique
+Projet Java / Ocaml - Ingénierie des logiciels et utilisabilité 1 - Licence informatique
                                                                                       GIREAUD
                                                                                       Noemie
                                                                                       [INXIL11A31]
-                                                                                      
+                           
+Pour enclancher le logiciel, il faut Run la classe Main sur Eclipse.
+La mise a niveau des données ( exécutés par Ocaml ) n'est possible que sur Linux, cependant la persistance des données reste possible sur
+n'importe quel systeme d'exploitaton.													 
+													 
 Tout le projet se trouve dans le dossier "Projet", les choses importantes à localiser sont :
 
--dossier Projet ->
-  -- dossier ocaml -> 
-     --- dossier donnes --> 
-         ---- contient tous les fichiers générés / récupérés par Ocaml et Java ( persistance de donnée )
-     --- dossier src -->
-         ---- contient les fichiers.ml qui ont le code Ocaml ( voir main.ml )
- -- dossier src -->
-     --- dossier main -->
-         ---- contient toutes les classes crées ( executer la classe Main pour lancer le logiciel )
-     --- dossier test --> 
-         ----- contient la classe Scenarios pour effectuer des tests
- -- ExecuterOcaml.sh (script bash éxécuté par Java pour enclancher le code Ocaml )
- -- README.md      
-                                                                                     Lien de la video 
+le dossier 'src' ( contenant les dossiers 'main' et 'tests' ) qui stock le code Java,
+le dossier 'ocaml' ( contenant entre autre les dossiers 'donnees' et 'src' ),
+le dossiers 'donnees' du dossier 'ocaml' stock tous les fichiers servant a la persistance, crées et modifiés en Java et Ocaml,
+le dossier 'src' du dossier 'ocaml' contient le code Ocaml ( regarder principalement le fichier 'main.ml' )
 
-Pour enclancher le logiciel, il faut Run la classe Main sur Eclipse.
-La persistance des données n'est possible que sur un systeme d'exploitation Linux.
+Le script bash ExecuterOcaml.sh est exécuté  par Java a chaque lancement du code, pour lancer le code Ocaml.                                               
+																									 
+																									 
+																									 
+Lien de la video 
+
+
