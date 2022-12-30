@@ -13,8 +13,7 @@ public class Controleur {
 
 	private static Controleur instance = new Controleur();
 	private Main main = Main.getInstance();
-	private Calendrier calendrierMain = getMain().getCalendrier();
-	private static SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE d MMMM yyyy");
+	private Calendrier calendrierMain = main.getCalendrier();
 	
 
 	public void creerTache(GregorianCalendar jour, String nom) {
@@ -23,7 +22,7 @@ public class Controleur {
 	}
 
 	public void creerEvenement(GregorianCalendar jour, String nom) {
-		Evenement nouvelEvenement = new Evenement((GregorianCalendar) jour.clone(), nom);
+		Evenement nouvelEvenement = new Evenement((GregorianCalendar) jour.clone(), nom, "");
 		ajouterPlanACalendrierMain(nouvelEvenement, "L'evenement ");
 	}
 
@@ -53,27 +52,26 @@ public class Controleur {
 
 	public void terminerUneTache(Tache tacheTermine, int numDeLaTache) {
 		tacheTermine.setAccomplie(true);
+		tacheTermine.terminerSousTaches(calendrierMain);
 		calendrierMain.retirerPlan(numDeLaTache);
-		getMain().ajouterUnTrophee(tacheTermine);
-		main.ajouterDesStars(
+		Main.ajouterUnTrophee(tacheTermine);
+		Main.ajouterDesStars(
 				STARS_APRES_ACCOMPLISSEMENT_TACHE + STARS_APRES_SOUS_TACHE * tacheTermine.getNbSousTache());
-		calendrierMain.retirerUneSousTache();
 	}
 
 	public void creerSousTache(Tache tacheAAjouterSousTache, String nomSousTache) {
 		SousTache nouvelleSousTache = new SousTache(tacheAAjouterSousTache.getDate(), nomSousTache);
-		tacheAAjouterSousTache.ajouterSousTache(nouvelleSousTache);
-		calendrierMain.ajouterUneSousTache();
+		tacheAAjouterSousTache.ajouterSousTache(nouvelleSousTache, calendrierMain);
 	}
 
 	public void supprimerUneSousTache(Tache tacheModifiee, int numSousTache) {
-		tacheModifiee.supprimerSousTache(numSousTache);
-		calendrierMain.retirerUneSousTache();
+		tacheModifiee.supprimerSousTache(numSousTache, calendrierMain);
 	}
 
 	public void terminerUneSousTache(Tache sousTacheATerminer) {
 		sousTacheATerminer.setAccomplie(true);
-		main.ajouterDesStars(STARS_APRES_ACCOMPLISSEMENT_SOUS_TACHE);
+		Main.ajouterDesStars(STARS_APRES_ACCOMPLISSEMENT_SOUS_TACHE);
+		calendrierMain.retirerUneSousTache();
 	}
 
 	public void verifPlanSelectionne(String userInput, GregorianCalendar jourDuCalendrier) {
@@ -81,7 +79,7 @@ public class Controleur {
 		if (userInput.length() > 5) {
 			try {
 				int numDuPlan = Integer.parseInt(userInput.split(" ")[1]) - 1;
-				if (numDuPlan >= 0 || numDuPlan < calendrierMain.getNbPlan()) {
+				if (numDuPlan >= 0 || numDuPlan < calendrierMain.getNbPlans()) {
 					Plan planAModifier = calendrierMain.getPlan()[numDuPlan];
 					Display.displayMenuModifierPlan(planAModifier, numDuPlan);
 				} else {
@@ -138,8 +136,10 @@ public class Controleur {
 	}
 
 	private static Boolean verifJour(GregorianCalendar dateDonnee, int jourDonne, int jourMax) {
-
-		GregorianCalendar jourActuel = GregorianCalendar.from(Display.getLocalDate().atStartOfDay(ZoneId.systemDefault()));
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE d MMMM yyyy");
+		GregorianCalendar jourActuel = GregorianCalendar
+				.from(Display.getLocalDate().atStartOfDay(ZoneId.systemDefault()));
 
 		if (jourDonne > 0 && jourDonne <= jourMax) {
 			dateDonnee.set(Calendar.DAY_OF_MONTH, jourDonne);
@@ -148,6 +148,13 @@ public class Controleur {
 		} else {
 			return true;
 		}
+	}
+
+	public void sauvegarderEtQuitter() {
+		EnvoyeurDeFichier ef = EnvoyeurDeFichier.getInstance();
+		ef.toutSauvegarder();
+		Display.display("Les données on bien été sauvegardées !");
+		System.exit(0);
 	}
 
 	public void afficheTousLesPlans() {

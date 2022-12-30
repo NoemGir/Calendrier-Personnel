@@ -4,22 +4,24 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class Calendrier {
-	private int nbTacheAFaire = 0;
-	private int nbSousTache = 0;
-	private int nbPlan = 0;
-	private int nbEvenement = 0;
+
+	private static Calendrier instance = new Calendrier();
+	private int nbTachesAFaire = 0;
+	private int nbTotalSousTachesAFaire = 0;
+	private int nbPlans = 0;
+	private int nbEvenements = 0;
 	private Plan[] plans = new Plan[10];
 
 	public void afficherPlanDeUnJour(GregorianCalendar jourAAfficher) {
 
-		if (nbPlan > 0) {
+		if (nbPlans > 0) {
 			int i = 0;
-			while (i < nbPlan && plans[i].getDate().getTime().before(jourAAfficher.getTime())) {
+			while (i < nbPlans && plans[i].getDate().getTime().before(jourAAfficher.getTime())) {
 				i++;
 			}
 			int j = i;
 			jourAAfficher.add(Calendar.DAY_OF_MONTH, 1);
-			while (j < nbPlan && plans[j].getDate().getTime().before(jourAAfficher.getTime())) {
+			while (j < nbPlans && plans[j].getDate().getTime().before(jourAAfficher.getTime())) {
 				plans[j].afficherPlan(j + 1);
 				j++;
 			}
@@ -35,38 +37,38 @@ public class Calendrier {
 
 	public int ajouterPlan(Plan plan) {
 
-		int i = nbPlan;
+		int i = nbPlans;
 		while (i > 0 && plan.getDate().before(plans[i - 1].getDate())) {
 			plans[i] = plans[i - 1];
 			i--;
 		}
 		plans[i] = plan;
-		nbPlan++;
+		nbPlans++;
 		if (plan instanceof Tache) {
-			nbTacheAFaire++;
+			nbTachesAFaire++;
 		} else {
-			nbEvenement++;
+			nbEvenements++;
 		}
 		return i;
 	}
 
 	public void retirerPlan(int numDuPlan) {
 		if (plans[numDuPlan] instanceof Tache) {
-			nbTacheAFaire--;
+			nbTachesAFaire--;
 		} else {
-			nbEvenement--;
+			nbEvenements--;
 		}
-		while (numDuPlan < nbPlan - 1) {
+		while (numDuPlan < nbPlans - 1) {
 			plans[numDuPlan] = plans[numDuPlan + 1];
 			numDuPlan++;
 		}
-		nbPlan--;
+		nbPlans--;
 	}
 
 	public void afficherTousLesPlans() {
-		if (nbPlan > 0) {
-			Display.display("Vous avez " + nbPlan + " plans enregistrés :\n");
-			for (int i = 0; i < nbPlan; i++) {
+		if (nbPlans > 0) {
+			Display.display("Vous avez " + nbPlans + " plans enregistrés :\n");
+			for (int i = 0; i < nbPlans; i++) {
 				plans[i].afficherPlan(i + 1);
 
 			}
@@ -76,8 +78,8 @@ public class Calendrier {
 
 	}
 
-	public int getNbPlan() {
-		return nbPlan;
+	public int getNbPlans() {
+		return nbPlans;
 	}
 
 	public Plan[] getPlan() {
@@ -85,23 +87,50 @@ public class Calendrier {
 	}
 
 	public int getNbTacheAFaire() {
-		return nbTacheAFaire;
+		return nbTachesAFaire;
 	}
 
 	public int getNbEvenement() {
-		return nbEvenement;
+		return nbEvenements;
 	}
 
-	public int getNbSousTache() {
-		return nbSousTache;
+	public int getNbTotalSousTachesAFaire() {
+		return nbTotalSousTachesAFaire;
 	}
 
 	public void ajouterUneSousTache() {
-		nbSousTache++;
+		nbTotalSousTachesAFaire++;
 	}
 
 	public void retirerUneSousTache() {
-		nbSousTache--;
+		nbTotalSousTachesAFaire--;
 	}
 
+	public void setPlans(Plan[] plans) {
+		this.plans = plans;
+	}
+
+	public void setNbPlan(int nbPlan) {
+		this.nbPlans = nbPlan;
+	}
+
+	public void setNbTachesAFaires(int nbTachesAFaire) {
+		this.nbTachesAFaire = nbTachesAFaire;
+	}
+
+	public void setNbTotalSousTachesAFaire(int nbTotalSousTaches) {
+		this.nbTotalSousTachesAFaire = nbTotalSousTaches;
+	}
+
+	public void setNbPlans(int nbPlans) {
+		this.nbPlans = nbPlans;
+	}
+
+	public void setNbEvenements(int nbEvenements) {
+		this.nbEvenements = nbEvenements;
+	}
+
+	public static Calendrier getInstance() {
+		return instance;
+	}
 }

@@ -38,7 +38,7 @@ let map_csv (f : string -> string) (data : string list list) : string list list 
 (* save_csv: string -> string list list -> unit
    Enregistre dans le fichier spécifié les données CSV *)
 let save_csv filename (data : string list list) =
-  Csv.save ~separator:',' ~quote_all:true filename data
+  Csv.save filename data
 
 
 (* print_readable: string list list -> unit

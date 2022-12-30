@@ -4,8 +4,8 @@ import java.util.GregorianCalendar;
 
 public class Evenement extends Plan {
 
-	public Evenement(GregorianCalendar date, String nom) {
-		super(date, nom);
+	public Evenement(GregorianCalendar date, String nom, String infoSup) {
+		super(date, nom, "");
 	}
 
 	public Evenement(GregorianCalendar date) {

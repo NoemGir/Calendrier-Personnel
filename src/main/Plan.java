@@ -1,6 +1,7 @@
 package main;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class Plan {
@@ -10,13 +11,23 @@ public class Plan {
 	private String infoSup = "";
 	protected SimpleDateFormat df = new SimpleDateFormat("EEEE d MMMM yyyy");
 
-	public Plan(GregorianCalendar date, String nom) {
+	public Plan(GregorianCalendar date, String nom, String infoSup) {
 		this.date = date;
 		this.nom = nom;
+		this.infoSup = infoSup;
+		setUpDate();
 	}
 
 	public Plan(GregorianCalendar date) {
 		this.date = date;
+		setUpDate();
+	}
+
+	public void setUpDate() {
+		date.set(Calendar.HOUR_OF_DAY, 0);
+		date.set(Calendar.MINUTE, 0);
+		date.set(Calendar.SECOND, 0);
+		date.set(Calendar.MILLISECOND, 0);
 	}
 
 	public String getNom() {

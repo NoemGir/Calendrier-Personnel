@@ -67,9 +67,6 @@ let rec modifier_les_donnees liste_liste_donnees liste_liste_plan = match liste_
 
 
 
-
-
-
 let donnees_csv () =
   let chemin_plan =  Libunix.get_example_file "listeDesPlanPrevu.csv" in
   let  plan_csv = Libcsv.load_csv chemin_plan in

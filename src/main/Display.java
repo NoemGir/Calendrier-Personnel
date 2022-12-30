@@ -15,13 +15,12 @@ public class Display {
 	private static Display instance = new Display();
 	private static Controleur controleur = Controleur.getInstance();
 	private static LocalDate localDate = LocalDate.now();
-	
-	private Display() {}
-	
+
+	private Display() {
+	}
 
 	public static void displayMainMenu(GregorianCalendar calendrier) {
-		
-		
+
 		GregorianCalendar jourActuel = GregorianCalendar.from(getLocalDate().atStartOfDay(ZoneId.systemDefault()));
 		SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE d MMMM yyyy");
 
@@ -31,7 +30,7 @@ public class Display {
 
 		GregorianCalendar calAffichage = (GregorianCalendar) calendrier.clone();
 
-		display(" --- Menu principal : --- \n");
+		display("\n --- Menu principal : --- \n");
 
 		for (int i = 0; i < 7; i++) {
 			display(i + " : " + dateFormat.format(calAffichage.getTime()));
@@ -43,7 +42,7 @@ public class Display {
 		display("10 : Voir toutes les plans enregistrés");
 		display("11 : Boutique");
 		display("12 : Infos Perso");
-		display("13 : Quitter\n");
+		display("13 : Sauvegarder et quitter\n");
 
 		int userInput = Integer.parseInt(inputOutput("Selectionner un jour ou une action : "));
 
@@ -79,7 +78,7 @@ public class Display {
 			displayMenuInfoPerso();
 			break;
 		case 13:
-			System.exit(0);
+			controleur.sauvegarderEtQuitter();
 			break;
 		default:
 			controleur.messageErreur();
@@ -104,7 +103,7 @@ public class Display {
 		display("5 : creer un évènement");
 		display("6 : Voir toutes les plans enregistrés");
 		display("7 : Retour au menu principal");
-		display("8 : Quitter\n");
+		display("8 : Sauvegarder et quitter\n");
 
 		String userInput = inputOutput("Selectionner un plan (plan numéroDuPlan) ou une option : \n");
 
@@ -140,8 +139,8 @@ public class Display {
 		case "7":
 			displayMainMenu(jourDuCalendrier);
 			break;
-		case "9":
-			System.exit(0);
+		case "8":
+			controleur.sauvegarderEtQuitter();
 			break;
 		default:
 			controleur.verifPlanSelectionne(userInput, jourDuCalendrier);
@@ -172,7 +171,7 @@ public class Display {
 		display("4 : Supprimer l'evenement");
 		display("5 : Retour au jour l'evenement");
 		display("6 : Retour au menu");
-		display("7 : Quitter\n");
+		display("7 : Sauvegarder et quitter\n");
 
 		String userInput = inputOutput(MESSAGE_CHOISIR_OPTION);
 
@@ -201,7 +200,7 @@ public class Display {
 			displayMainMenu(jour);
 			break;
 		case "7":
-			System.exit(0);
+			controleur.sauvegarderEtQuitter();
 			break;
 		default:
 			controleur.messageErreur();
@@ -218,7 +217,7 @@ public class Display {
 		display("6 : Supprimer la tache");
 		display("7 : Retour au jour de la tache");
 		display("8 : Retour au menu");
-		display("9 : Quitter\n");
+		display("9 : Sauvegarder et quitter\n");
 
 		String userInput = inputOutput("Selectionner  une option  ou une sous-tache (sousTache numSousTache): \n");
 
@@ -238,7 +237,8 @@ public class Display {
 			displayMenuModifierPlan(tacheAModifier, numDuPlan);
 			break;
 		case "4":
-			display("Félicitation ! Vous venez de terminer une nouvelle tache ! *musique* elle sera ajoutée a vos trophees\n");
+			display("Félicitation ! Vous venez de terminer une nouvelle tache ! *musique*\n"
+					+ "Elle sera ajoutée a vos trophees\n");
 			controleur.terminerUneTache(tacheAModifier, numDuPlan);
 			displayMenuUnJour(jour);
 			break;
@@ -257,7 +257,7 @@ public class Display {
 			displayMainMenu(jour);
 			break;
 		case "9":
-			System.exit(0);
+			controleur.sauvegarderEtQuitter();
 			break;
 		default:
 			if (controleur.sousTacheBienSelectionnee(tacheAModifier, userInput)) {
@@ -278,7 +278,6 @@ public class Display {
 
 	public static void displayMenuModifierSousTache(Tache tacheModifiee, int numTache, int numSousTache) {
 
-
 		SousTache sousTacheAModifier = tacheModifiee.getSousTaches()[numSousTache];
 
 		sousTacheAModifier.afficherPlanComplet();
@@ -289,7 +288,7 @@ public class Display {
 		display("4 : Supprimer");
 		display("5 : Retour a la tache");
 		display("6 : Retour au Menu");
-		display("7 : quitter");
+		display("7 : Sauvegarder et quitter\n");
 
 		String userInput = inputOutput(MESSAGE_CHOISIR_OPTION);
 
@@ -316,7 +315,7 @@ public class Display {
 			displayMainMenu(null);
 			break;
 		case "7":
-			System.exit(0);
+			controleur.sauvegarderEtQuitter();
 			break;
 		default:
 			controleur.messageErreur();
@@ -328,13 +327,13 @@ public class Display {
 	public static void displayInfoSousTacheFinie(Tache tache, int numTache, int numSousTache) {
 
 		SousTache sousTacheTerminee = tache.getSousTaches()[numSousTache];
-		
+
 		sousTacheTerminee.afficherPlanComplet();
 
 		display("La sous tache est terminée, impossible de la modifier\n");
 		display("1 : Retour a la tache");
 		display("2 : Retour au menu");
-		display("3 : Quitter\n");
+		display("3 : Sauvegarder et quitter\n");
 
 		String userInput = inputOutput(MESSAGE_CHOISIR_OPTION);
 
@@ -347,7 +346,7 @@ public class Display {
 			displayMainMenu(null);
 			break;
 		case "3":
-			System.exit(0);
+			controleur.sauvegarderEtQuitter();
 			break;
 		default:
 			controleur.messageErreur();
@@ -357,21 +356,16 @@ public class Display {
 	}
 
 	public static void displayMenuInfoPerso() {
-		
-		Main main = controleur.getMain();
-		
-		display("--- information personnelles ---\n");
-		
 
-		display("Vous avez recolter : " + main.getStars() + " Stars ! Félicitaton !\n");
-		display(" Statistiques : ");
-		display("  - Nombre total de taches a faire : " + main.getCalendrier().getNbTacheAFaire());
-		display("  - Nombre total d'evenement prevu : " + main.getCalendrier().getNbEvenement());
-		display("  - Nombre total de tache realisees : " + main.getNbTrophees() + "\n");
-
-		display("1 : Voir tout le plan");
-		display("1 : Voir la liste des trophets");
-		display("2 : Retour au menu\n");
+		Main main = Main.getInstance();
+		
+		display(" ---- Informations personnelles ---- ");
+		main.afficherInfosPerso();
+		
+		display("\n1 : Voir tout le plan");
+		display("2 : Voir la liste des trophets");
+		display("3 : Retour au menu");
+		display("4 : Sauvegarder et quitter\n");
 
 		String userInput = inputOutput(MESSAGE_CHOISIR_OPTION);
 
@@ -386,6 +380,9 @@ public class Display {
 			break;
 		case "3":
 			displayMainMenu(null);
+			break;
+		case "4":
+			controleur.sauvegarderEtQuitter();
 			break;
 		default:
 			controleur.messageErreur();
@@ -403,7 +400,7 @@ public class Display {
 	}
 
 	public static GregorianCalendar demanderUnJour() {
-		
+
 		GregorianCalendar jourActuel = GregorianCalendar.from(getLocalDate().atStartOfDay(ZoneId.systemDefault()));
 		GregorianCalendar dateDonnee = new GregorianCalendar();
 		dateDonnee.set(Calendar.HOUR_OF_DAY, 0);
@@ -423,7 +420,7 @@ public class Display {
 		dateDonnee.set(Calendar.YEAR, annee);
 
 		do {
-			mois = Integer.parseInt(inputOutput("Donnez un mois ( -1 si retour au Menu) : "));
+			mois = Integer.parseInt(inputOutput("Donnez un mois ( -1 si retour au Menu) : ")) - 1;
 			dateDonnee.set(Calendar.MONTH, mois);
 			dateDonnee.set(Calendar.DAY_OF_MONTH, jourActuel.get(Calendar.DAY_OF_MONTH));
 		} while (mois != -1 && (0 > mois || mois > 11 || dateDonnee.before(jourActuel)));
@@ -443,10 +440,10 @@ public class Display {
 	}
 
 	private static String inputOutput(String message) {
-		
+
 		display(message);
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
+
 		String returnString = "";
 		try {
 			returnString = br.readLine();
@@ -464,7 +461,6 @@ public class Display {
 	public static void display(String texte) {
 		System.out.println(texte);
 	}
-
 
 	public static LocalDate getLocalDate() {
 		return localDate;

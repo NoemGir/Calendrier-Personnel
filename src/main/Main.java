@@ -1,31 +1,34 @@
 package main;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.*;
-
 public class Main {
 
+	public static final int NOMBRE_MAX_TROPHEES = 200;
+	public final String CHEMIN_DES_FICHIERS = "ocaml/donnees/";
+	public static final String FICHIER_DONNEES = "donnees.csv";
+	public static final String FICHIER_PLANS = "listeDesPlanPrevu.csv";
+	public static final String FICHIER_NOUVELLES_DONNEES = "nouvellesDonnees.csv";
+	public static final String FICHIER_NOUVEAU_PLANS = "nouvelleListeDesPlan.csv";
+	public static final String FICHIER_TROPHEES = "trophees.csv";
+	private static Tache[] trophees = new Tache[NOMBRE_MAX_TROPHEES];
+	private static Calendrier calendrier = Calendrier.getInstance();
+	private final int NB_DONNEES = 6;
 	private static Main instance = new Main();
-	private int stars = 0;
+	private static int stars = 0;
+	private static int nbTrophees = 0;
 	// private Pet[] pets = new Pet[50];
 	// private int tempsDeTravailTotal = 0;
-	private Calendrier calendrier = new Calendrier();
-	private Tache[] trophees = new Tache[100];
-	private int nbTrophees = 0;
 
 	public Calendrier getCalendrier() {
 		return calendrier;
 	}
 
-	public void setCalendrier(Calendrier calendrier) {
+	public static void setCalendrier(Calendrier calendrier) {
 
-		this.calendrier = calendrier;
+		Main.calendrier = calendrier;
 
 	}
 
-	public void ajouterUnTrophee(Tache tacheTermine) {
-		assert (tacheTermine.isAccomplie());
+	public static void ajouterUnTrophee(Tache tacheTermine) {
 		trophees[nbTrophees] = tacheTermine;
 		nbTrophees++;
 	}
@@ -37,21 +40,86 @@ public class Main {
 				trophees[i].afficherPlan(i + 1);
 			}
 		} else {
-			Display.display(" Vous n'avez aucun trophee pour le moment ");
+			Display.display(" Vous n'avez aucun trophee pour le moment\n ");
 		}
+	}
+	
+	public void messageNombreTotal(String nom, int valeur) {
+		Display.display("  - Nombre total d" + nom + " : " + valeur);
 	}
 
 	public void afficherInfosPerso() {
 		Display.display("Vous avez recolte : " + stars + " Stars ! Félicitaton !\n");
 		Display.display(" Statistiques : ");
-		Display.display(
-				"  - Nombre total de taches a faire : " + calendrier.getNbTacheAFaire() + calendrier.getNbSousTache());
-		Display.display("  - Nombre total d'evenement prevu : " + calendrier.getNbEvenement());
-		Display.display("  - Nombre total de tache realisees : " + nbTrophees + "\n");
+		messageNombreTotal("e plans", calendrier.getNbPlans() );
+		messageNombreTotal("e taches a faire ( taches + sous-taches )", (calendrier.getNbTacheAFaire() + calendrier.getNbTotalSousTachesAFaire()) );
+		messageNombreTotal("e taches ( sans les sous-taches )", calendrier.getNbTacheAFaire() );
+		messageNombreTotal("'evenements prevu", calendrier.getNbEvenement() );
+		messageNombreTotal("de trophees", nbTrophees );
+	
+
 	}
 
-	public void ajouterDesStars(int nbStarsAAjouter) {
-		this.stars = stars + nbStarsAAjouter;
+	public static void messageBienRecupere(String nom) {
+		Display.display(nom + " a bien été recuperé !");
+	}
+
+	public static void reinitialiserTrophees() {
+		nbTrophees = 0;
+		trophees = new Tache[NOMBRE_MAX_TROPHEES];
+	}
+
+	public static void reinitialiserDonnees() {
+		stars = 0;
+		calendrier = new Calendrier();
+	}
+
+	public void reinitialisationDesDonnees(String nomDuFichier) {
+		Display.display("Les informations du fichier " + nomDuFichier + " n'ont pas pu etre récupérés. "
+				+ "\nLancement du programme avec un fichier " + nomDuFichier + " remis a zero..");
+		if (nomDuFichier.equals(FICHIER_TROPHEES)) {
+			reinitialiserTrophees();
+		} else {
+			reinitialiserDonnees();
+		}
+		Display.displayMainMenu(null);
+	}
+
+	public static void mettreAJourLesDonnees() {
+		CommandeShell cs = CommandeShell.getInstance();
+
+		Display.display("Remise a niveau des fichiers..\n");
+		cs.executerLesFichiersOcaml();
+
+	}
+
+	public static void recupererToutesLesDonnees(String fichierDonnees, String fichierPlan) {
+
+		ReceveurDeFichier rf = ReceveurDeFichier.getInstance();
+
+		Display.display("Récuperation des données...\n");
+
+		stars = rf.recupererUneDonnee(fichierDonnees, "nbStars");
+		messageBienRecupere("nbStars");
+		nbTrophees = rf.recupererUneDonnee(fichierDonnees, "nbTrophees");
+		messageBienRecupere("nbTrophees");
+		calendrier.setNbTachesAFaires(rf.recupererUneDonnee(fichierDonnees, "nbTachesAFaire"));
+		messageBienRecupere("nbTacheAFaire");
+		calendrier.setNbPlans(rf.recupererUneDonnee(fichierDonnees, "nbPlans"));
+		messageBienRecupere("nbPlans");
+		calendrier.setNbEvenements(rf.recupererUneDonnee(fichierDonnees, "nbEvenements"));
+		messageBienRecupere("nbEvenements");
+		calendrier.setNbTotalSousTachesAFaire(rf.recupererUneDonnee(fichierDonnees, "nbTotalSousTachesAFaire"));
+		messageBienRecupere("nbTotalSousTachesAFaire");
+		trophees = rf.recupererFichierEnTableauTache(FICHIER_TROPHEES);
+		messageBienRecupere("Le tableau de trophees");
+		calendrier.setPlans(rf.recupererFichierEnTableauPlan(fichierPlan));
+		messageBienRecupere("Le tableau de plan");
+
+	}
+
+	public static void ajouterDesStars(int nbStarsAAjouter) {
+		Main.stars = stars + nbStarsAAjouter;
 	}
 
 	public int getNbTrophees() {
@@ -62,14 +130,51 @@ public class Main {
 		return stars;
 	}
 
+	public Tache[] getTrophees() {
+		return trophees;
+	}
+
+	public static void setTrophees(Tache[] trophees) {
+		Main.trophees = trophees;
+	}
+
 	public static Main getInstance() {
 		return instance;
 	}
 
+	public static String getFichierDonnees() {
+		return FICHIER_DONNEES;
+	}
+
+	public static String getFichierPlans() {
+		return FICHIER_PLANS;
+	}
+
+	public static String getFichierNouvellesDonnees() {
+		return FICHIER_NOUVELLES_DONNEES;
+	}
+
+	public static String getFichierNouveauPlans() {
+		return FICHIER_NOUVEAU_PLANS;
+	}
+
+	public static String getFichierTrophees() {
+		return FICHIER_TROPHEES;
+	}
+
+	public String getCheminDeFichier() {
+		return CHEMIN_DES_FICHIERS;
+	}
+
+	public int getNbDonnees() {
+		return NB_DONNEES;
+	}
+
 	public static void main(String[] args) {
+		mettreAJourLesDonnees();
+		recupererToutesLesDonnees(FICHIER_NOUVELLES_DONNEES, FICHIER_NOUVEAU_PLANS);
 		Display.displayMainMenu(null);
 	}
 
 }
-
 

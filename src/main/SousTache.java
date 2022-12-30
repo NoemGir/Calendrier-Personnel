@@ -4,6 +4,10 @@ import java.util.GregorianCalendar;
 
 public class SousTache extends Tache {
 
+	public SousTache(GregorianCalendar date, String nom, String infoSup, Boolean accomplie) {
+		super(date, nom, infoSup, accomplie);
+	}
+
 	public SousTache(GregorianCalendar date, String nom) {
 		super(date, nom);
 	}

@@ -5,12 +5,25 @@ import java.util.GregorianCalendar;
 public class Tache extends Plan {
 
 	protected int nbSousTache = 0;
-	protected SousTache[] sousTaches = new SousTache[20];
+	protected SousTache[] sousTaches = new SousTache[10];
 	// private int tempsDeRealisation = 0;
 	private boolean accomplie = false;
 
+	public Tache(GregorianCalendar date, String nom, String infoSup, int nbSousTache, SousTache[] sousTaches,
+			boolean accomplie) {
+		super(date, nom, infoSup);
+		this.nbSousTache = nbSousTache;
+		this.sousTaches = sousTaches;
+		this.accomplie = accomplie;
+	}
+
+	public Tache(GregorianCalendar date, String nom, String infoSup, Boolean accomplie) {
+		super(date, nom, infoSup);
+		this.accomplie = accomplie;
+	}
+
 	public Tache(GregorianCalendar date, String nom) {
-		super(date, nom);
+		super(date, nom, "");
 	}
 
 	public void setAccomplie(boolean accomplie) {
@@ -39,10 +52,9 @@ public class Tache extends Plan {
 			for (int i = 0; i < nbSousTache; i++) {
 				sousTaches[i].afficherPlan(i + 1);
 			}
-		}
-		else {
+		} else {
 			Display.display(" Aucune sous-tache enregistrée\n");
-		}	
+		}
 	}
 
 	public String returnIndicationSiTacheTerminee() {
@@ -53,14 +65,27 @@ public class Tache extends Plan {
 		}
 	}
 
-	public void ajouterSousTache(SousTache nouvelleSousTache) {
+	public void ajouterSousTache(SousTache nouvelleSousTache, Calendrier calendrierMain) {
 		sousTaches[nbSousTache] = nouvelleSousTache;
 		nbSousTache++;
+		Display.display("ajout d'une sous tache");
+		calendrierMain.ajouterUneSousTache();
+
 	}
 
-	public void supprimerSousTache(int numSousTache) {
+	public void supprimerSousTache(int numSousTache, Calendrier calendrierMain) {
 		sousTaches[numSousTache] = sousTaches[nbSousTache - 1];
 		nbSousTache--;
+		calendrierMain.retirerUneSousTache();
+	}
+
+	public void terminerSousTaches(Calendrier calendrierMain) {
+		if (nbSousTache > 0) {
+			for (int i = 0; i < nbSousTache; i++) {
+				sousTaches[i].setAccomplie(true);
+				calendrierMain.retirerUneSousTache();
+			}
+		}
 	}
 
 	public int getNbSousTache() {
