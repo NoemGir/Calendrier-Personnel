@@ -18,18 +18,18 @@ public class EnvoyeurDeFichier {
 		sauvegarderTableauPlan(Main.getFichierTrophees(), main.getTrophees(), main.getNbTrophees());
 	}
 
-	public void sauvegarderDonnees(Main main) {
+	private void sauvegarderDonnees(Main main) {
 
 		String[][] donnesFormatCSV = mettreDonneesFormatCSV();
 		modifierFichierCSV(Main.getFichierDonnees(), donnesFormatCSV, main.getNbDonnees());
 	}
 
-	public void sauvegarderTableauPlan(String nomDuFichier, Plan[] tableauASauvegarder, int nbElements) {
+	private void sauvegarderTableauPlan(String nomDuFichier, Plan[] tableauASauvegarder, int nbElements) {
 		String[][] tableauFormatCSV = mettreTableauPlanFormatCSV(tableauASauvegarder, nbElements);
 		modifierFichierCSV(nomDuFichier, tableauFormatCSV, nbElements);
 	}
 
-	public String[][] mettreTableauPlanFormatCSV(Plan[] tableauPlan, int nbPlan) {
+	private String[][] mettreTableauPlanFormatCSV(Plan[] tableauPlan, int nbPlan) {
 
 		String[][] fichier = new String[100][16];
 
@@ -57,7 +57,7 @@ public class EnvoyeurDeFichier {
 		return fichier;
 	}
 
-	public String[][] mettreDonneesFormatCSV() {
+	private String[][] mettreDonneesFormatCSV() {
 
 		Calendrier calendrier = main.getCalendrier();
 		int nbStars = main.getStars();
@@ -84,7 +84,7 @@ public class EnvoyeurDeFichier {
 
 	}
 
-	public void modifierFichierCSV(String nomDuFichier, String[][] modification, int nbLigne) {
+	private void modifierFichierCSV(String nomDuFichier, String[][] modification, int nbLigne) {
 
 		File fichierCSV = new File(main.getCheminDeFichier() + nomDuFichier);
 		try {

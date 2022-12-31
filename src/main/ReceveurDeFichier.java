@@ -44,7 +44,7 @@ public class ReceveurDeFichier {
 
 	}
 
-	public List<List<String>> importationDuFichier(String nomDuFichier) {
+	private List<List<String>> importationDuFichier(String nomDuFichier) {
 
 		Main main = Main.getInstance();
 		File fichierCSV = new File(main.getCheminDeFichier() + nomDuFichier);
@@ -64,7 +64,7 @@ public class ReceveurDeFichier {
 		}
 	}
 
-	public Plan[] transformerListeEnTableauPlan(List<List<String>> listesImbriquees, Plan[] tableauPlan) {
+	private Plan[] transformerListeEnTableauPlan(List<List<String>> listesImbriquees, Plan[] tableauPlan) {
 
 		int i = 0;
 
@@ -97,7 +97,7 @@ public class ReceveurDeFichier {
 		return tableauPlan;
 	}
 
-	public SousTache[] recupererTableauSousTache(GregorianCalendar date, List<String> liste) {
+	private SousTache[] recupererTableauSousTache(GregorianCalendar date, List<String> liste) {
 
 		SousTache[] tableauSousTache = new SousTache[10];
 		int nbSousTache = Integer.parseInt(liste.get(6));

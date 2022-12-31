@@ -18,17 +18,17 @@ public class Controleur {
 
 	public void creerTache(GregorianCalendar jour, String nom) {
 		Tache nouvelleTache = new Tache((GregorianCalendar) jour.clone(), nom);
-		ajouterPlanACalendrierMain(nouvelleTache, "La tache ");
+		ajouterPlanACalendrierMain(nouvelleTache);
 	}
 
 	public void creerEvenement(GregorianCalendar jour, String nom) {
 		Evenement nouvelEvenement = new Evenement((GregorianCalendar) jour.clone(), nom, "");
-		ajouterPlanACalendrierMain(nouvelEvenement, "L'evenement ");
+		ajouterPlanACalendrierMain(nouvelEvenement);
 	}
 
-	public void ajouterPlanACalendrierMain(Plan nouveauPlan, String categorie) {
+	public void ajouterPlanACalendrierMain(Plan nouveauPlan) {
 		calendrierMain.ajouterPlan(nouveauPlan);
-		Display.display(categorie + " a bien été ajouté !\n");
+
 	}
 
 	public void changerNomDuPlan(Plan tacheAModifier, String nouveauNom) {
@@ -148,6 +148,10 @@ public class Controleur {
 		} else {
 			return true;
 		}
+	}
+	
+	public Boolean inputEstCorrect(String input) {
+		return !(input.contains(",") || input.contains("\\") || input.contains(";") || input.contains("::"));
 	}
 
 	public void sauvegarderEtQuitter() {

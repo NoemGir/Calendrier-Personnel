@@ -3,9 +3,10 @@ package main;
 import java.util.GregorianCalendar;
 
 public class Tache extends Plan {
-
+	
+	private final int NB_MAX_SOUSTACHE = 10;
 	protected int nbSousTache = 0;
-	protected SousTache[] sousTaches = new SousTache[10];
+	protected SousTache[] sousTaches = new SousTache[NB_MAX_SOUSTACHE];
 	// private int tempsDeRealisation = 0;
 	private boolean accomplie = false;
 
@@ -57,7 +58,7 @@ public class Tache extends Plan {
 		}
 	}
 
-	public String returnIndicationSiTacheTerminee() {
+	protected String returnIndicationSiTacheTerminee() {
 		if (accomplie) {
 			return "(Terminee)";
 		} else {
@@ -66,10 +67,15 @@ public class Tache extends Plan {
 	}
 
 	public void ajouterSousTache(SousTache nouvelleSousTache, Calendrier calendrierMain) {
+		if (nbSousTache == NB_MAX_SOUSTACHE) {
+			Display.display("nombre max de sous tache atteint " + NB_MAX_SOUSTACHE + ".\n vous ne pouvez pas en rajouter ");
+		}
+		else {
 		sousTaches[nbSousTache] = nouvelleSousTache;
 		nbSousTache++;
-		Display.display("ajout d'une sous tache");
-		calendrierMain.ajouterUneSousTache();
+		calendrierMain.ajouterUneSousTache();	
+		}
+		
 
 	}
 

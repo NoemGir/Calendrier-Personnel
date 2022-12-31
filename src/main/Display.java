@@ -11,6 +11,8 @@ import java.util.GregorianCalendar;
 
 public class Display {
 
+	private static final String NOM = "un nom";
+	private static final String INFO = "une information supplémentaire";
 	private static final String MESSAGE_CHOISIR_OPTION = "Selectionner  une option : \n";
 	private static Display instance = new Display();
 	private static Controleur controleur = Controleur.getInstance();
@@ -125,11 +127,11 @@ public class Display {
 			displayMenuUnJour(demanderUnJour());
 			break;
 		case "4":
-			controleur.creerTache(jourDuCalendrier, demanderUnNom());
+			controleur.creerTache(jourDuCalendrier, demanderTexte(NOM));
 			displayMenuUnJour(jourDuCalendrier);
 			break;
 		case "5":
-			controleur.creerEvenement(jourDuCalendrier, demanderUnNom());
+			controleur.creerEvenement(jourDuCalendrier, demanderTexte(NOM));
 			displayMenuUnJour(jourDuCalendrier);
 			break;
 		case "6":
@@ -164,7 +166,7 @@ public class Display {
 
 	}
 
-	public static void displayMenuModifierEvenement(Evenement evenementAModifier, int numDuPlan) {
+	private static void displayMenuModifierEvenement(Evenement evenementAModifier, int numDuPlan) {
 
 		GregorianCalendar jour = (GregorianCalendar) evenementAModifier.getDate().clone();
 
@@ -177,7 +179,7 @@ public class Display {
 
 		switch (userInput) {
 		case "1":
-			controleur.changerNomDuPlan(evenementAModifier, demanderUnNom());
+			controleur.changerNomDuPlan(evenementAModifier, demanderTexte(NOM));
 			displayMenuModifierPlan(evenementAModifier, numDuPlan);
 			break;
 		case "2":
@@ -186,7 +188,7 @@ public class Display {
 			displayMenuModifierPlan(evenementAModifier, numDuPlan);
 			break;
 		case "3":
-			controleur.changerInfoSupDuPlan(evenementAModifier, demanderInfoSupplementaire());
+			controleur.changerInfoSupDuPlan(evenementAModifier, demanderTexte(INFO));
 			displayMenuModifierPlan(evenementAModifier, numDuPlan);
 			break;
 		case "4":
@@ -208,7 +210,7 @@ public class Display {
 		}
 	}
 
-	public static void displayMenuModifierTache(Tache tacheAModifier, int numDuPlan) {
+	private static void displayMenuModifierTache(Tache tacheAModifier, int numDuPlan) {
 
 		GregorianCalendar jour = (GregorianCalendar) tacheAModifier.getDate().clone();
 
@@ -223,7 +225,7 @@ public class Display {
 
 		switch (userInput) {
 		case "1":
-			controleur.changerNomDuPlan(tacheAModifier, demanderUnNom());
+			controleur.changerNomDuPlan(tacheAModifier, demanderTexte(NOM));
 			displayMenuModifierPlan(tacheAModifier, numDuPlan);
 			break;
 		case "2":
@@ -233,7 +235,7 @@ public class Display {
 			displayMenuModifierPlan(tacheAModifier, numDuPlan);
 			break;
 		case "3":
-			controleur.changerInfoSupDuPlan(tacheAModifier, demanderInfoSupplementaire());
+			controleur.changerInfoSupDuPlan(tacheAModifier, demanderTexte(INFO));
 			displayMenuModifierPlan(tacheAModifier, numDuPlan);
 			break;
 		case "4":
@@ -243,7 +245,7 @@ public class Display {
 			displayMenuUnJour(jour);
 			break;
 		case "5":
-			controleur.creerSousTache(tacheAModifier, demanderUnNom());
+			controleur.creerSousTache(tacheAModifier, demanderTexte(NOM));
 			displayMenuModifierPlan(tacheAModifier, numDuPlan);
 			break;
 		case "6":
@@ -276,7 +278,7 @@ public class Display {
 		}
 	}
 
-	public static void displayMenuModifierSousTache(Tache tacheModifiee, int numTache, int numSousTache) {
+	private static void displayMenuModifierSousTache(Tache tacheModifiee, int numTache, int numSousTache) {
 
 		SousTache sousTacheAModifier = tacheModifiee.getSousTaches()[numSousTache];
 
@@ -294,11 +296,11 @@ public class Display {
 
 		switch (userInput) {
 		case "1":
-			controleur.changerNomDuPlan(sousTacheAModifier, demanderUnNom());
+			controleur.changerNomDuPlan(sousTacheAModifier, demanderTexte("un nom"));
 			displayMenuModifierSousTache(tacheModifiee, numTache, numSousTache);
 			break;
 		case "2":
-			controleur.changerInfoSupDuPlan(sousTacheAModifier, demanderInfoSupplementaire());
+			controleur.changerInfoSupDuPlan(sousTacheAModifier, demanderTexte(INFO));
 			break;
 		case "3":
 			controleur.terminerUneSousTache(sousTacheAModifier);
@@ -324,7 +326,7 @@ public class Display {
 
 	}
 
-	public static void displayInfoSousTacheFinie(Tache tache, int numTache, int numSousTache) {
+	private static void displayInfoSousTacheFinie(Tache tache, int numTache, int numSousTache) {
 
 		SousTache sousTacheTerminee = tache.getSousTaches()[numSousTache];
 
@@ -355,7 +357,7 @@ public class Display {
 
 	}
 
-	public static void displayMenuInfoPerso() {
+	private static void displayMenuInfoPerso() {
 
 		Main main = Main.getInstance();
 		
@@ -390,16 +392,19 @@ public class Display {
 		}
 
 	}
-
-	public static String demanderUnNom() {
-		return inputOutput("Donnez un nom au plan : ");
+	
+	private static String demanderTexte(String nom) {
+		String input = inputOutput("Donnez " + nom + " : ");
+		if (controleur.inputEstCorrect(input)){
+			return input;
+		}
+		else {
+			display("le texte ne doit pas contenir de '\\' ou de ',' ou de ';' ou de '::' , veillez recommancer\n");
+			return demanderTexte(nom);
+		}
 	}
 
-	public static String demanderInfoSupplementaire() {
-		return inputOutput("Donnez des informations supplémentaires");
-	}
-
-	public static GregorianCalendar demanderUnJour() {
+	private static GregorianCalendar demanderUnJour() {
 
 		GregorianCalendar jourActuel = GregorianCalendar.from(getLocalDate().atStartOfDay(ZoneId.systemDefault()));
 		GregorianCalendar dateDonnee = new GregorianCalendar();

@@ -7,9 +7,9 @@ import java.util.GregorianCalendar;
 public class Plan {
 
 	protected GregorianCalendar date = new GregorianCalendar();
-	protected String nom;
+	private String nom;
 	private String infoSup = "";
-	protected SimpleDateFormat df = new SimpleDateFormat("EEEE d MMMM yyyy");
+	private SimpleDateFormat df = new SimpleDateFormat("EEEE d MMMM yyyy");
 
 	public Plan(GregorianCalendar date, String nom, String infoSup) {
 		this.date = date;
@@ -23,7 +23,7 @@ public class Plan {
 		setUpDate();
 	}
 
-	public void setUpDate() {
+	private void setUpDate() {
 		date.set(Calendar.HOUR_OF_DAY, 0);
 		date.set(Calendar.MINUTE, 0);
 		date.set(Calendar.SECOND, 0);
@@ -58,11 +58,11 @@ public class Plan {
 
 	}
 
-	public void afficherDateEtNom() {
+	protected void afficherDateEtNom() {
 		Display.display("Pour le " + df.format(date.getTime()) + " : " + nom + ".\n");
 	}
 
-	public void affichageComplet() {
+	protected void affichageComplet() {
 		Display.display("Pour le " + df.format(date.getTime()) + " :\n");
 		Display.display("Nom : " + nom);
 		if (!"".equals(infoSup)) {

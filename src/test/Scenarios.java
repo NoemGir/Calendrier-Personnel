@@ -1,11 +1,12 @@
 package test;
 
 import java.util.GregorianCalendar;
+import java.util.Objects;
 import main.*;
 
 public class Scenarios {
 
-	private Main utilisateur = Main.getInstance();
+	private Main main = Main.getInstance();
 	private Controleur controleur = Controleur.getInstance();
 
 	public Scenarios() {
@@ -13,7 +14,7 @@ public class Scenarios {
 	}
 
 	public void setUp() {
-		Calendrier calendrierMain = utilisateur.getCalendrier();
+		Calendrier calendrierMain = main.getCalendrier();
 		Tache tache1 = new Tache(new GregorianCalendar(2023, 1, 2), "tache 1");
 		Tache tache2 = new Tache(new GregorianCalendar(2023, 1, 3), "tache 2");
 		Tache tache3 = new Tache(new GregorianCalendar(2023, 1, 1), "tache 3");
@@ -41,90 +42,139 @@ public class Scenarios {
 	}
 
 	public void affichageDesPlans() {
-		utilisateur.getCalendrier().afficherTousLesPlans();
+		main.getCalendrier().afficherTousLesPlans();
 	}
 
 	public void afficherPlanUnJour() {
-		utilisateur.getCalendrier().afficherPlanDeUnJour(new GregorianCalendar(2023, 1, 2));
+		main.getCalendrier().afficherPlanDeUnJour(new GregorianCalendar(2023, 1, 2));
 	}
 
-	public void verificationFonctionMiseEnFormatFichier() {
-		EnvoyeurDeFichier ef = EnvoyeurDeFichier.getInstance();
-		Calendrier calendrier = utilisateur.getCalendrier();
-		int nbPlan = calendrier.getNbPlans();
-		Plan[] plans = calendrier.getPlan();
-		System.out.println(ef.toStringFichier(ef.mettreTableauPlanFormatCSV(plans, nbPlan), nbPlan));
-	}
-
-	public void creationDuFichierCalendrier() {
-		EnvoyeurDeFichier ef = EnvoyeurDeFichier.getInstance();
-		int nbPlan = utilisateur.getCalendrier().getNbPlans();
-		Plan[] tableauDesPlans = utilisateur.getCalendrier().getPlan();
-		String[][] calendrierFormatCSV = ef.mettreTableauPlanFormatCSV(tableauDesPlans, nbPlan);
-		ef.modifierFichierCSV("listeDesPlanPrevu.csv", calendrierFormatCSV, nbPlan);
-	}
-	
-	public void creationDuFichierTrophee() {
-		EnvoyeurDeFichier ef = EnvoyeurDeFichier.getInstance();
-		int nbTrophees = utilisateur.getNbTrophees();
-		Plan[] tableauTrophees = utilisateur.getTrophees();
-		String[][] calendrierFormatCSV = ef.mettreTableauPlanFormatCSV(tableauTrophees, nbTrophees);
-		ef.modifierFichierCSV("trophees.csv", calendrierFormatCSV, nbTrophees);
-	}
-
-	public void creationDuFichierDonnee() {
-		EnvoyeurDeFichier ef = EnvoyeurDeFichier.getInstance();
-		Main main = Main.getInstance();
-		ef.sauvegarderDonnees(main);
-	}
-
-	public void recuperationDuFichierEnTableauPlan() {
-		ReceveurDeFichier rf = ReceveurDeFichier.getInstance();
-		Plan[] fichierRecupere = rf.recupererFichierEnTableauPlan("listeDesPlanPrevu.csv");
-		Calendrier calendrier = utilisateur.getCalendrier();
-		calendrier.setPlans(fichierRecupere);
-		calendrier.afficherTousLesPlans();
-		calendrier.getPlan()[3].afficherPlanComplet();
-	}
-
-	public void recuperationDesDonnees() {
-		ReceveurDeFichier rf = ReceveurDeFichier.getInstance();
-		int nbEvenements = rf.recupererUneDonnee("donnees.csv", "nbEvenements");
-		Display.display("nbEvenements= " + nbEvenements);
-		int nbStars = rf.recupererUneDonnee("donnees.csv", "nbStars");
-		Display.display("nbStars = " + nbStars);
-		int nbTachesAFaire = rf.recupererUneDonnee("donnees.csv", "nbTachesAFaire");
-		Display.display("nbTachesAFaire = " + nbTachesAFaire);
-		int nbTotalSousTachesAFaire = rf.recupererUneDonnee("donnees.csv", "nbTotalSousTachesAFaire");
-		Display.display("nbTotalSousTachesAFaire = " + nbTotalSousTachesAFaire);
-	}
 
 	public void modifierDateDeUnPlan() {
-		controleur.setMain(utilisateur);
-		Calendrier calendrier = utilisateur.getCalendrier();
+		
+		Calendrier calendrier = main.getCalendrier();
 		int ancienNbPlan = calendrier.getNbPlans();
-
-		calendrier.afficherTousLesPlans();
-		Display.display("" + calendrier.getNbPlans());
-		controleur.changerDateDuPlanReturnNouveauNum(calendrier.getPlan()[0], 1, new GregorianCalendar(2023, 1, 2));
+		GregorianCalendar nouvelleDate = new GregorianCalendar(2023, 1, 5);
+		Plan ancienPlan = calendrier.getPlan()[0];
+		int nouveauNum = controleur.changerDateDuPlanReturnNouveauNum(ancienPlan, 0, nouvelleDate);
+		Plan nouveauPlan = calendrier.getPlan()[nouveauNum];
 		int nouveauNbPlan = calendrier.getNbPlans();
-
-		calendrier.afficherTousLesPlans();
+		
+		assert (ancienNbPlan == nouveauNbPlan);
+		assert (nouveauPlan.getDate() == nouvelleDate);
+		assert (ancienPlan.getInfoSup().equals(nouveauPlan.getInfoSup()));
+		assert (ancienPlan.getNom().equals( nouveauPlan.getNom()));
+		Display.display("test reussit :3");
+	}
+	
+	public void ajouterUneTache() {
+		Calendrier calendrier = main.getCalendrier();
+		Tache nouvelleTache = new Tache(new GregorianCalendar(2023,1,6), "tache rajoutée");
+		int ancienNbPlan = calendrier.getNbPlans();
+		int ancienNbTache = calendrier.getNbTacheAFaire();
+		int ancienNbSousTache = calendrier.getNbTotalSousTachesAFaire();
+		int ancienNbEvenement = calendrier.getNbEvenement();
+		
+		calendrier.ajouterPlan(nouvelleTache);
+		
+		int nouveauNbPlan = calendrier.getNbPlans();
+		int nouveauNbTache = calendrier.getNbTacheAFaire();
+		int nouveauNbSousTache = calendrier.getNbTotalSousTachesAFaire();
+		int nouveauNbEvenement = calendrier.getNbEvenement();
+		
+		assert (nouveauNbPlan == ancienNbPlan+1);
+		assert (nouveauNbTache == ancienNbTache+1);
+		assert (nouveauNbSousTache == ancienNbSousTache);
+		assert (nouveauNbEvenement == ancienNbEvenement);
+		Display.display("test reussit :3");
+	}
+	
+	public void ajouterUneTacheAvecSousTaches() {
+		Calendrier calendrier = main.getCalendrier();
+		Tache nouvelleTache = new Tache(new GregorianCalendar(2023,1,6), "tache rajoutée");
+		int ancienNbPlan = calendrier.getNbPlans();
+		int ancienNbTache = calendrier.getNbTacheAFaire();
+		int ancienNbSousTache = calendrier.getNbTotalSousTachesAFaire();
+		int ancienNbEvenement = calendrier.getNbEvenement();
+		
+		calendrier.ajouterPlan(nouvelleTache);
+		controleur.creerSousTache(nouvelleTache, "sousTache1");
+		controleur.creerSousTache(nouvelleTache, "sousTache2");
+		
+		int nouveauNbPlan = calendrier.getNbPlans();
+		int nouveauNbTache = calendrier.getNbTacheAFaire();
+		int nouveauNbSousTache = calendrier.getNbTotalSousTachesAFaire();
+		int nouveauNbEvenement = calendrier.getNbEvenement();
+		
+		assert (nouveauNbPlan == ancienNbPlan+1);
+		assert (nouveauNbTache == ancienNbTache+1);
+		assert (nouveauNbSousTache == ancienNbSousTache+2);
+		assert (nouveauNbEvenement == ancienNbEvenement);
+		assert (nouvelleTache.getNbSousTache() == 2);
+		Display.display("test reussit :3");
+	}
+	
+	public void verificationOcaml() {
+		Calendrier calendrier = main.getCalendrier();
+	    Evenement event = new Evenement(new GregorianCalendar(2022,1,6), "tache avant la date actuelle", "infos supp");		
+		EnvoyeurDeFichier ef = EnvoyeurDeFichier.getInstance();
+		String fichierDonnees = Main.getFichierNouvellesDonnees();
+		String fichierPlan = Main.getFichierNouveauPlans();
+		
+		calendrier.ajouterPlan(event);
+		int ancienNbPlan = calendrier.getNbPlans();
+		int ancienNbTache = calendrier.getNbTacheAFaire();
+		int ancienNbSousTache = calendrier.getNbTotalSousTachesAFaire();
+		int ancienNbEvenement = calendrier.getNbEvenement();
+		
+	    ef.toutSauvegarder();
+	    Main.mettreAJourLesDonnees();
+		Main.recupererToutesLesDonnees(fichierDonnees, fichierPlan);
+		
+		assert(calendrier.getNbPlans() == ancienNbPlan-1);
+		assert(calendrier.getNbTacheAFaire() == ancienNbTache);	
+		assert (calendrier.getNbEvenement() == ancienNbEvenement-1);
+		assert (calendrier.getNbTotalSousTachesAFaire() == ancienNbSousTache);
+		Display.display("test reussit :3");
+	}
+	
+	// dans la fonction si dessous, les " , \ " affichent une erreur, et les " :: ; " sont suspects; 
+	public void testInfosOcamlEtPersistance() {
+			Calendrier calendrier = main.getCalendrier();	
+			EnvoyeurDeFichier ef = EnvoyeurDeFichier.getInstance();
+			String fichierDonnees = Main.getFichierNouvellesDonnees();
+			String fichierPlan = Main.getFichierNouveauPlans();
+			calendrier.getPlan()[2].setInfoSup("'' ' '' \\\\  \\\\ ; ;;;;  :: ::  :: ::  \\ fin des tests");
+			String ancienneInfoSup = calendrier.getPlan()[2].getInfoSup();
+			int ancienNbPlan = calendrier.getNbPlans();
+			int ancienNbTache = calendrier.getNbTacheAFaire();
+			int ancienNbSousTache = calendrier.getNbTotalSousTachesAFaire();
+			int ancienNbEvenement = calendrier.getNbEvenement();
+			
+		    ef.toutSauvegarder();
+		    Main.mettreAJourLesDonnees();
+			Main.recupererToutesLesDonnees(fichierDonnees, fichierPlan);
+			
+			String nouvelleInfoSup = calendrier.getPlan()[2].getInfoSup();
+			assert (nouvelleInfoSup.equals(ancienneInfoSup));
+			assert (calendrier.getNbPlans() == ancienNbPlan);
+			assert (calendrier.getNbTacheAFaire() == ancienNbTache);	
+			assert (calendrier.getNbEvenement() == ancienNbEvenement);
+			assert (calendrier.getNbTotalSousTachesAFaire() == ancienNbSousTache);
+			Display.display("test reussit :3");
 	}
 
+//	/!\ vérifier que l'argument -ea est bien mit avant de run les scenarios /!\
 	public static void main(String[] args) {
 		Scenarios testScenario = new Scenarios();
 
-		 testScenario.affichageDesPlans();
+		// testScenario.affichageDesPlans();
 		// testScenario.afficherPlanUnJour();
 		// testScenario.modifierDateDeUnPlan();
-		// testScenario.verificationFonctionMiseEnFormatFichier();
-	   testScenario.creationDuFichierCalendrier();
-	   // testScenario.recuperationDuFichierEnTableauPlan();
-	    testScenario.creationDuFichierDonnee();
-		testScenario.creationDuFichierTrophee();
-		
-		// testScenario.recuperationDesDonnees();
-	}
+	    // testScenario.ajouterUneTache();
+		// testScenario.ajouterUneTacheAvecSousTaches();
+		// testScenario.verificationOcaml();
+	       testScenario.testInfosOcamlEtPersistance();
+	} 
 
 }

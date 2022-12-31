@@ -2,13 +2,13 @@ package main;
 
 public class Main {
 
-	public static final int NOMBRE_MAX_TROPHEES = 200;
-	public final String CHEMIN_DES_FICHIERS = "ocaml/donnees/";
-	public static final String FICHIER_DONNEES = "donnees.csv";
-	public static final String FICHIER_PLANS = "listeDesPlanPrevu.csv";
-	public static final String FICHIER_NOUVELLES_DONNEES = "nouvellesDonnees.csv";
-	public static final String FICHIER_NOUVEAU_PLANS = "nouvelleListeDesPlan.csv";
-	public static final String FICHIER_TROPHEES = "trophees.csv";
+	private static final int NOMBRE_MAX_TROPHEES = 300;
+	private final String CHEMIN_DES_FICHIERS = "ocaml/donnees/";
+	private static final String FICHIER_DONNEES = "donnees.csv";
+	private static final String FICHIER_PLANS = "listeDesPlanPrevu.csv";
+	private static final String FICHIER_NOUVELLES_DONNEES = "nouvellesDonnees.csv";
+	private static final String FICHIER_NOUVEAU_PLANS = "nouvelleListeDesPlan.csv";
+	private static final String FICHIER_TROPHEES = "trophees.csv";
 	private static Tache[] trophees = new Tache[NOMBRE_MAX_TROPHEES];
 	private static Calendrier calendrier = Calendrier.getInstance();
 	private final int NB_DONNEES = 6;
@@ -29,8 +29,14 @@ public class Main {
 	}
 
 	public static void ajouterUnTrophee(Tache tacheTermine) {
-		trophees[nbTrophees] = tacheTermine;
-		nbTrophees++;
+		if (nbTrophees == NOMBRE_MAX_TROPHEES) {
+			Display.display("nombre max de trophees atteint");
+		}
+		else {
+			trophees[nbTrophees] = tacheTermine;
+			nbTrophees++;
+		}
+		
 	}
 
 	public void afficherTrophees() {
@@ -44,7 +50,7 @@ public class Main {
 		}
 	}
 	
-	public void messageNombreTotal(String nom, int valeur) {
+	private void messageNombreTotal(String nom, int valeur) {
 		Display.display("  - Nombre total d" + nom + " : " + valeur);
 	}
 
@@ -60,16 +66,16 @@ public class Main {
 
 	}
 
-	public static void messageBienRecupere(String nom) {
+	private static void messageBienRecupere(String nom) {
 		Display.display(nom + " a bien été recuperé !");
 	}
 
-	public static void reinitialiserTrophees() {
+	private static void reinitialiserTrophees() {
 		nbTrophees = 0;
 		trophees = new Tache[NOMBRE_MAX_TROPHEES];
 	}
 
-	public static void reinitialiserDonnees() {
+	private static void reinitialiserDonnees() {
 		stars = 0;
 		calendrier = new Calendrier();
 	}

@@ -4,13 +4,14 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class Calendrier {
-
+	
+	private final int NB_PLAN_MAX = 100;
 	private static Calendrier instance = new Calendrier();
 	private int nbTachesAFaire = 0;
 	private int nbTotalSousTachesAFaire = 0;
 	private int nbPlans = 0;
 	private int nbEvenements = 0;
-	private Plan[] plans = new Plan[10];
+	private Plan[] plans = new Plan[NB_PLAN_MAX];
 
 	public void afficherPlanDeUnJour(GregorianCalendar jourAAfficher) {
 
@@ -37,6 +38,11 @@ public class Calendrier {
 
 	public int ajouterPlan(Plan plan) {
 
+		if (nbPlans == NB_PLAN_MAX) {
+			Display.display(" capacité de plans maximale atteinte ( " + NB_PLAN_MAX+ "  ),"
+					+ "\n en terminer ou supprimer un avant d'en rajouter un nouveau\n");
+			Display.displayMenuUnJour(plan.getDate());
+		}
 		int i = nbPlans;
 		while (i > 0 && plan.getDate().before(plans[i - 1].getDate())) {
 			plans[i] = plans[i - 1];
