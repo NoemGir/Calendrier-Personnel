@@ -1,4 +1,7 @@
-package main;
+package main.principal;
+
+import main.plan.*;
+import main.exterieur.*;
 
 public class Main {
 
@@ -77,7 +80,7 @@ public class Main {
 
 	private static void reinitialiserDonnees() {
 		stars = 0;
-		calendrier = new Calendrier();
+		calendrier = Calendrier.getInstance();
 	}
 
 	public void reinitialisationDesDonnees(String nomDuFichier) {

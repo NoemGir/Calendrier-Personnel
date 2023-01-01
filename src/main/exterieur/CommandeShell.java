@@ -1,8 +1,10 @@
-package main;
+package main.exterieur;
 
+import main.principal.*;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
+
 
 public class CommandeShell {
 

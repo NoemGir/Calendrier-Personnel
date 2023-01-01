@@ -1,5 +1,7 @@
-package main;
+package main.exterieur;
 
+import main.principal.*;
+import main.plan.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -56,7 +58,6 @@ public class ReceveurDeFichier {
 				String[] values = ligne.split(",");
 				liste.add(Arrays.asList(values));
 			}
-
 			return liste;
 		} catch (Exception e) {
 			main.reinitialisationDesDonnees(nomDuFichier);

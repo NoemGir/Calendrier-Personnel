@@ -1,5 +1,6 @@
-package main;
+package main.plan;
 
+import main.principal.Display;
 import java.util.GregorianCalendar;
 
 public class Evenement extends Plan {

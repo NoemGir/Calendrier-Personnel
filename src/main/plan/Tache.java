@@ -1,5 +1,6 @@
-package main;
+package main.plan;
 
+import main.principal.*;
 import java.util.GregorianCalendar;
 
 public class Tache extends Plan {

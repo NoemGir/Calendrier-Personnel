@@ -1,5 +1,6 @@
-package main;
+package main.principal;
 
+import main.plan.*;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 

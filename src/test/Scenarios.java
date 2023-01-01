@@ -2,7 +2,9 @@ package test;
 
 import java.util.GregorianCalendar;
 import java.util.Objects;
-import main.*;
+import main.principal.*;
+import main.plan.*;
+import main.exterieur.*;
 
 public class Scenarios {
 

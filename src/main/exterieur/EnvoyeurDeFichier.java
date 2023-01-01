@@ -1,5 +1,7 @@
-package main;
+package main.exterieur;
 
+import main.principal.*;
+import main.plan.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.Calendar;
