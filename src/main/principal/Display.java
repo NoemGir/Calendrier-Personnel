@@ -46,7 +46,8 @@ public class Display {
 		display("10 : Voir toutes les plans enregistrés");
 		display("11 : Boutique");
 		display("12 : Infos Perso");
-		display("13 : Sauvegarder et quitter\n");
+		display("13 : Help - Guide");
+		display("14 : Sauvegarder et quitter\n");
 
 		int userInput = Integer.parseInt(inputOutput("Selectionner un jour ou une action : "));
 
@@ -82,6 +83,10 @@ public class Display {
 			displayMenuInfoPerso();
 			break;
 		case 13:
+			displayGuide();
+			displayMainMenu(calendrier);
+			break;
+		case 14:
 			controleur.sauvegarderEtQuitter();
 			break;
 		default:
@@ -103,13 +108,13 @@ public class Display {
 		display("1 : Jour précédent");
 		display("2 : Jour suivant");
 		display("3 : Changer de jour");
-		display("4 : creer une tache");
-		display("5 : creer un évènement");
+		display("4 : creer une tâche");
+		display("5 : creer un événement");
 		display("6 : Voir toutes les plans enregistrés");
 		display("7 : Retour au menu principal");
 		display("8 : Sauvegarder et quitter\n");
 
-		String userInput = inputOutput("Selectionner un plan (plan numéroDuPlan) ou une option : \n");
+		String userInput = inputOutput("Selectionnez un plan (plan numéroDuPlan) ou une option : \n");
 
 		switch (userInput) {
 		case "1":
@@ -172,8 +177,8 @@ public class Display {
 
 		GregorianCalendar jour = (GregorianCalendar) evenementAModifier.getDate().clone();
 
-		display("4 : Supprimer l'evenement");
-		display("5 : Retour au jour l'evenement");
+		display("4 : Supprimer l'événement");
+		display("5 : Retour au jour l'événement");
 		display("6 : Retour au menu");
 		display("7 : Sauvegarder et quitter\n");
 
@@ -216,14 +221,14 @@ public class Display {
 
 		GregorianCalendar jour = (GregorianCalendar) tacheAModifier.getDate().clone();
 
-		display("4 : Terminer la tache");
-		display("5 : Creer une sous tache");
-		display("6 : Supprimer la tache");
-		display("7 : Retour au jour de la tache");
+		display("4 : Terminer la tâche");
+		display("5 : Creer une sous tâche");
+		display("6 : Supprimer la tâche");
+		display("7 : Retour au jour de la tâche");
 		display("8 : Retour au menu");
 		display("9 : Sauvegarder et quitter\n");
 
-		String userInput = inputOutput("Selectionner  une option  ou une sous-tache (sousTache numSousTache): \n");
+		String userInput = inputOutput("Selectionner  une option  ou une sous-tâche (sousTâche numSousTâche): \n");
 
 		switch (userInput) {
 		case "1":
@@ -241,8 +246,8 @@ public class Display {
 			displayMenuModifierPlan(tacheAModifier, numDuPlan);
 			break;
 		case "4":
-			display("Félicitation ! Vous venez de terminer une nouvelle tache ! *musique*\n"
-					+ "Elle sera ajoutée a vos trophees\n");
+			display("Félicitation ! Vous venez de terminer une nouvelle tâche ! *musique*\n"
+					+ "Elle sera ajoutée a vos trophées\n");
 			controleur.terminerUneTache(tacheAModifier, numDuPlan);
 			displayMenuUnJour(jour);
 			break;
@@ -288,9 +293,9 @@ public class Display {
 
 		display("1 : Changer le nom");
 		display("2 : Changer les informations supplémentaires");
-		display("3 : Terminer la sous-tache");
+		display("3 : Terminer la sous-tâche");
 		display("4 : Supprimer");
-		display("5 : Retour a la tache");
+		display("5 : Retour à la tâche");
 		display("6 : Retour au Menu");
 		display("7 : Sauvegarder et quitter\n");
 
@@ -335,8 +340,8 @@ public class Display {
 
 		sousTacheTerminee.afficherPlanComplet();
 
-		display("La sous tache est terminée, impossible de la modifier\n");
-		display("1 : Retour a la tache");
+		display("La sous-tache est terminée, impossible de la modifier\n");
+		display("1 : Retour â la tâche");
 		display("2 : Retour au menu");
 		display("3 : Sauvegarder et quitter\n");
 
@@ -474,4 +479,62 @@ public class Display {
 		return localDate;
 	}
 
+	private static final void displayGuide() {
+		String explication = """
+
+				   --- Guide d'utilisation ---
+
+				Ce logiciel est une esquisse de Calendrier.
+				L"utilisateur peut se déplacer dans le calendrier et y voir les plans organisés, ainsi que rajouter / supprimer des plans.
+				Les plans sont composés en deux catégories : les événements et les tâches.
+				--Les événements ne servent qu'à marquer un événement qui va se dérouler cette journee là.
+				--Les tâches sont des activités à faire, elles peuvent donc être accomplies, et possèdent des sous-taches.
+
+				Pour utiliser les menus : taper sur le clavier le numéro placé devant l'option de votre choix et appuyez sur ENTRER.
+
+				Pour modifier un plan : Deplacez vous sur le menu du jour du plan de votre choix et entrez : "plan *numeroDuPlan*".
+				Le numéro du plan correspond au numéro placé juste après le nom de la catégorie du plan voulu ( Tâche ou Evénement ).
+
+				Pour modifier une sous-tâche : Une foi sur le menu d'un plan, vous pouvez creer/modifier une sous-tâche."
+				Pour la modifier, taper "soustâche *numeroDeLaSousTâche*". Comme pour les plans, le numéro de la sous tâche sera affiché après sa catégorie : Sous-Tache.
+
+				Les informations personnelles contiennent les nombre de Stars, de plans prévus ( tâches et événements ) ainsi que le nombre de trophees.
+				Elles sont misent sous forme de menu ou il est possible d'afficher le tableau de Trophees.
+
+				Les Stars sont un type de monnaie spécifique au logiciel. Elles serviront à acheter des produits dans la boutique qui sera prochainement disponible.
+				10 Stars sont obtenues à l'accomplissement d'une tâche, plus deux fois le nombre de sous-tâches que cette tâche possèdait ( terminées ou pas ).
+				A l'accomplissement d'une sous-tâche, l'utilisateur gagne 5 Stars.
+
+				N'OUBLIEZ PAS D'APPUYER SUR SAUVEGARDER ET QUITTER AVANT DE PARTIR, OU VOUS PERDREZ TOUTE DONNÉES RAJOUTÉES.
+				
+				""";
+		display(explication);
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

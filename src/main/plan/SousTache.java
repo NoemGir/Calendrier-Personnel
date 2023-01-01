@@ -15,13 +15,13 @@ public class SousTache extends Tache {
 
 	@Override
 	public void afficherPlan(int numDuPlan) {
-		Display.display(" -- Sous-Tache " + numDuPlan + " : " + returnIndicationSiTacheTerminee());
+		Display.display(" -- Sous-Tâche " + numDuPlan + " : " + returnIndicationSiTacheTerminee());
 		afficherDateEtNom();
 	}
 
 	@Override
 	public void afficherPlanComplet() {
-		Display.display(" --- Sous-Tache " + returnIndicationSiTacheTerminee() + " ---\n");
+		Display.display(" --- Sous-Tâche " + returnIndicationSiTacheTerminee() + " ---\n");
 		affichageComplet();
 	}
 }

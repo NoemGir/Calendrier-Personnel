@@ -15,13 +15,13 @@ public class Evenement extends Plan {
 
 	@Override
 	public void afficherPlan(int numDuPlan) {
-		Display.display("Evenement " + numDuPlan + " : ");
+		Display.display("Événement " + numDuPlan + " : ");
 		afficherDateEtNom();
 	}
 
 	@Override
 	public void afficherPlanComplet() {
-		Display.display(" --- Evenement ---\n");
+		Display.display(" --- Événement ---\n");
 		affichageComplet();
 	}
 }

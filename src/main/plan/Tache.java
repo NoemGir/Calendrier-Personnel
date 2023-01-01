@@ -35,7 +35,7 @@ public class Tache extends Plan {
 	@Override
 	public void afficherPlan(int numDuPlan) {
 
-		Display.display("Tache " + numDuPlan + " : " + returnIndicationSiTacheTerminee());
+		Display.display("Tâche " + numDuPlan + " : " + returnIndicationSiTacheTerminee());
 		afficherDateEtNom();
 		afficherSousTaches();
 	}
@@ -43,33 +43,33 @@ public class Tache extends Plan {
 	@Override
 	public void afficherPlanComplet() {
 
-		Display.display(" --- Tache " + returnIndicationSiTacheTerminee() + " ---\n");
+		Display.display(" --- Tâche " + returnIndicationSiTacheTerminee() + " ---\n");
 		super.affichageComplet();
 		afficherSousTaches();
 	}
 
 	private void afficherSousTaches() {
 		if (nbSousTache > 0) {
-			Display.display(" Cette tache possède " + nbSousTache + " sous-taches :\n");
+			Display.display(" Cette tâche possède " + nbSousTache + " sous-tâches :\n");
 			for (int i = 0; i < nbSousTache; i++) {
 				sousTaches[i].afficherPlan(i + 1);
 			}
 		} else {
-			Display.display(" Aucune sous-tache enregistrée\n");
+			Display.display(" Aucune sous-tâche enregistrée\n");
 		}
 	}
 
 	protected String returnIndicationSiTacheTerminee() {
 		if (accomplie) {
-			return "(Terminee)";
+			return "(Terminée)";
 		} else {
-			return "(Non Terminee)";
+			return "(Non Terminée)";
 		}
 	}
 
 	public void ajouterSousTache(SousTache nouvelleSousTache, Calendrier calendrierMain) {
 		if (nbSousTache == NB_MAX_SOUSTACHE) {
-			Display.display("nombre max de sous tache atteint " + NB_MAX_SOUSTACHE + ".\n vous ne pouvez pas en rajouter ");
+			Display.display("nombre max de sous-tâche atteint " + NB_MAX_SOUSTACHE + ".\n Vous ne pouvez pas en rajouter ");
 		}
 		else {
 		sousTaches[nbSousTache] = nouvelleSousTache;
