@@ -1,7 +1,6 @@
 package test;
 
 import java.util.GregorianCalendar;
-import java.util.Objects;
 import main.principal.*;
 import main.plan.*;
 import main.exterieur.*;
@@ -194,14 +193,14 @@ public class Scenarios {
 	public static void main(String[] args) {
 		Scenarios testScenario = new Scenarios();
 
-		// testScenario.affichageDesPlans();
-		// testScenario.afficherPlanUnJour();
-		// testScenario.modifierDateDeUnPlan();
-		// testScenario.ajouterUneTache();
-		// testScenario.ajouterUneTacheAvecSousTaches();
-		testScenario.terminerUneTache();
-		// testScenario.verificationOcaml();
-		// testScenario.testInfosOcamlEtPersistance();
+//		testScenario.affichageDesPlans();
+//		testScenario.afficherPlanUnJour();
+//		testScenario.modifierDateDeUnPlan();
+//		testScenario.ajouterUneTache();
+//		testScenario.ajouterUneTacheAvecSousTaches();
+//		testScenario.terminerUneTache();
+//		testScenario.verificationOcaml();
+//		testScenario.testInfosOcamlEtPersistance();
 	}
 
 }
