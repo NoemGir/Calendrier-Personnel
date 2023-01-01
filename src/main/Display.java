@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 public class Display {
 
@@ -24,7 +25,7 @@ public class Display {
 	public static void displayMainMenu(GregorianCalendar calendrier) {
 
 		GregorianCalendar jourActuel = GregorianCalendar.from(getLocalDate().atStartOfDay(ZoneId.systemDefault()));
-		SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE d MMMM yyyy");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE d MMMM yyyy", Locale.FRANCE);
 
 		if (calendrier == null) {
 			calendrier = (GregorianCalendar) jourActuel.clone();
@@ -91,7 +92,7 @@ public class Display {
 	public static void displayMenuUnJour(GregorianCalendar jourDuCalendrier) {
 
 		GregorianCalendar jourActuel = GregorianCalendar.from(getLocalDate().atStartOfDay(ZoneId.systemDefault()));
-		SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE d MMMM yyyy");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE d MMMM yyyy", Locale.FRANCE);
 		Calendrier calendrierDuMain = controleur.getCalendrierMain();
 
 		display(" --- Le " + dateFormat.format(jourDuCalendrier.getTime()) + " : --- \n");
@@ -296,11 +297,12 @@ public class Display {
 
 		switch (userInput) {
 		case "1":
-			controleur.changerNomDuPlan(sousTacheAModifier, demanderTexte("un nom"));
+			controleur.changerNomDuPlan(sousTacheAModifier, demanderTexte(NOM));
 			displayMenuModifierSousTache(tacheModifiee, numTache, numSousTache);
 			break;
 		case "2":
 			controleur.changerInfoSupDuPlan(sousTacheAModifier, demanderTexte(INFO));
+			displayMenuModifierSousTache(tacheModifiee, numTache, numSousTache);
 			break;
 		case "3":
 			controleur.terminerUneSousTache(sousTacheAModifier);
@@ -365,7 +367,7 @@ public class Display {
 		main.afficherInfosPerso();
 		
 		display("\n1 : Voir tout le plan");
-		display("2 : Voir la liste des trophets");
+		display("2 : Voir la liste des trophees");
 		display("3 : Retour au menu");
 		display("4 : Sauvegarder et quitter\n");
 
@@ -417,7 +419,7 @@ public class Display {
 		int jour;
 
 		do {
-			annee = Integer.parseInt(inputOutput("Donnez une année ( -1 si retour au Menu) : "));
+			annee = Integer.parseInt(inputOutput("Donnez le nombre de l'année ( -1 si retour au Menu) : "));
 		} while (annee != -1 && annee < jourActuel.get(Calendar.YEAR));
 		if (annee == -1) {
 			displayMainMenu(jourActuel);
@@ -425,8 +427,8 @@ public class Display {
 		dateDonnee.set(Calendar.YEAR, annee);
 
 		do {
-			mois = Integer.parseInt(inputOutput("Donnez un mois ( -1 si retour au Menu) : ")) - 1;
-			dateDonnee.set(Calendar.MONTH, mois);
+			mois = Integer.parseInt(inputOutput("Donnez le nombre du mois entre 1 et 12 ( -1 si retour au Menu) : "));
+			dateDonnee.set(Calendar.MONTH, mois-1);
 			dateDonnee.set(Calendar.DAY_OF_MONTH, jourActuel.get(Calendar.DAY_OF_MONTH));
 		} while (mois != -1 && (0 > mois || mois > 11 || dateDonnee.before(jourActuel)));
 		if (mois == -1) {
@@ -434,7 +436,7 @@ public class Display {
 		}
 
 		do {
-			jour = Integer.parseInt(inputOutput("Donnez un jour ( -1 si retour au Menu) : "));
+			jour = Integer.parseInt(inputOutput("Donnez le nombre du jour ( -1 si retour au Menu) : "));
 
 		} while (jour != -1 && Boolean.TRUE.equals(Controleur.jourIncorrect(jour, dateDonnee)));
 		if (jour == -1) {

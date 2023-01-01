@@ -3,13 +3,14 @@ package main;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 public class Plan {
 
 	protected GregorianCalendar date = new GregorianCalendar();
 	private String nom;
 	private String infoSup = "";
-	private SimpleDateFormat df = new SimpleDateFormat("EEEE d MMMM yyyy");
+	private SimpleDateFormat df = new SimpleDateFormat("EEEE d MMMM yyyy", Locale.FRANCE);
 
 	public Plan(GregorianCalendar date, String nom, String infoSup) {
 		this.date = date;

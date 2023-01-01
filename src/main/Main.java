@@ -61,7 +61,7 @@ public class Main {
 		messageNombreTotal("e taches a faire ( taches + sous-taches )", (calendrier.getNbTacheAFaire() + calendrier.getNbTotalSousTachesAFaire()) );
 		messageNombreTotal("e taches ( sans les sous-taches )", calendrier.getNbTacheAFaire() );
 		messageNombreTotal("'evenements prevu", calendrier.getNbEvenement() );
-		messageNombreTotal("de trophees", nbTrophees );
+		messageNombreTotal("e trophees", nbTrophees );
 	
 
 	}
