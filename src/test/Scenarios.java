@@ -16,14 +16,14 @@ public class Scenarios {
 
 	public void setUp() {
 		Calendrier calendrierMain = main.getCalendrier();
-		Tache tache1 = new Tache(new GregorianCalendar(2023, 1, 2), "tache 1");
-		Tache tache2 = new Tache(new GregorianCalendar(2023, 1, 3), "tache 2");
-		Tache tache3 = new Tache(new GregorianCalendar(2023, 1, 1), "tache 3");
-		Tache tache4 = new Tache(new GregorianCalendar(2023, 1, 1), "tache 4");
-		Evenement event1 = new Evenement(new GregorianCalendar(2023, 1, 2), "evenement 1", "");
-		Evenement event2 = new Evenement(new GregorianCalendar(2023, 1, 1), "evenement 2", "");
+		Tache tache1 = new Tache(new GregorianCalendar(2023, 2, 2), "tache 1");
+		Tache tache2 = new Tache(new GregorianCalendar(2023, 2, 3), "tache 2");
+		Tache tache3 = new Tache(new GregorianCalendar(2023, 2, 1), "tache 3");
+		Tache tache4 = new Tache(new GregorianCalendar(2023, 2, 1), "tache 4");
+		Evenement event1 = new Evenement(new GregorianCalendar(2023, 2, 2), "evenement 1", "");
+		Evenement event2 = new Evenement(new GregorianCalendar(2023, 2, 1), "evenement 2", "");
 
-		SousTache sousTache1 = new SousTache(new GregorianCalendar(2023, 1, 2), "Sous tache 1",
+		SousTache sousTache1 = new SousTache(new GregorianCalendar(2023, 2, 2), "Sous tache 1",
 				"infos sup sous tache 1", false);
 		tache1.ajouterSousTache(sousTache1, calendrierMain);
 		tache1.setInfoSup("infos sup de la tache 1");
@@ -48,7 +48,7 @@ public class Scenarios {
 	}
 
 	public void afficherPlanUnJour() {
-		main.getCalendrier().afficherPlanDeUnJour(new GregorianCalendar(2023, 1, 2));
+		main.getCalendrier().afficherPlanDeUnJour(new GregorianCalendar(2023, 2, 2));
 		Display.display("test reussit :3");
 	}
 
@@ -56,7 +56,7 @@ public class Scenarios {
 
 		Calendrier calendrier = main.getCalendrier();
 		int ancienNbPlan = calendrier.getNbPlans();
-		GregorianCalendar nouvelleDate = new GregorianCalendar(2023, 1, 5);
+		GregorianCalendar nouvelleDate = new GregorianCalendar(2023, 2, 5);
 		Plan ancienPlan = calendrier.getPlan()[1];
 		int nouveauNum = controleur.changerDateDuPlanReturnNouveauNum(ancienPlan, 1, nouvelleDate);
 		Plan nouveauPlan = calendrier.getPlan()[nouveauNum];
@@ -71,7 +71,7 @@ public class Scenarios {
 
 	public void ajouterUneTache() {
 		Calendrier calendrier = main.getCalendrier();
-		Tache nouvelleTache = new Tache(new GregorianCalendar(2023, 1, 6), "tache rajoutée");
+		Tache nouvelleTache = new Tache(new GregorianCalendar(2023, 2, 6), "tache rajoutée");
 		int ancienNbPlan = calendrier.getNbPlans();
 		int ancienNbTache = calendrier.getNbTacheAFaire();
 		int ancienNbSousTache = calendrier.getNbTotalSousTachesAFaire();
@@ -93,7 +93,7 @@ public class Scenarios {
 
 	public void ajouterUneTacheAvecSousTaches() {
 		Calendrier calendrier = main.getCalendrier();
-		Tache nouvelleTache = new Tache(new GregorianCalendar(2023, 1, 6), "tache rajoutée");
+		Tache nouvelleTache = new Tache(new GregorianCalendar(2023, 2, 6), "tache rajoutée");
 		int ancienNbPlan = calendrier.getNbPlans();
 		int ancienNbTache = calendrier.getNbTacheAFaire();
 		int ancienNbSousTache = calendrier.getNbTotalSousTachesAFaire();
@@ -139,7 +139,7 @@ public class Scenarios {
 
 	public void verificationOcaml() {
 		Calendrier calendrier = main.getCalendrier();
-		Evenement event = new Evenement(new GregorianCalendar(2022, 1, 6), "tache avant la date actuelle",
+		Evenement event = new Evenement(new GregorianCalendar(2022, 2, 6), "tache avant la date actuelle",
 				"infos supp");
 		EnvoyeurDeFichier ef = EnvoyeurDeFichier.getInstance();
 		String fichierDonnees = Main.getFichierNouvellesDonnees();
@@ -199,7 +199,7 @@ public class Scenarios {
 //		testScenario.ajouterUneTache();
 //		testScenario.ajouterUneTacheAvecSousTaches();
 //		testScenario.terminerUneTache();
-//		testScenario.verificationOcaml();
+//    	testScenario.verificationOcaml();
 //		testScenario.testInfosOcamlEtPersistance();
 	}
 
