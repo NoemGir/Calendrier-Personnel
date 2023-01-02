@@ -199,7 +199,7 @@ public class Scenarios {
 //		testScenario.ajouterUneTache();
 //		testScenario.ajouterUneTacheAvecSousTaches();
 //		testScenario.terminerUneTache();
-//    	testScenario.verificationOcaml();
+   	testScenario.verificationOcaml();
 //		testScenario.testInfosOcamlEtPersistance();
 	}
 

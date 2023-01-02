@@ -160,7 +160,6 @@ public class Controleur {
 	public void sauvegarderEtQuitter() {
 		EnvoyeurDeFichier ef = EnvoyeurDeFichier.getInstance();
 		ef.toutSauvegarder();
-		Display.display("Les données on bien été sauvegardées !");
 		System.exit(0);
 	}
 

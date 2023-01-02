@@ -89,8 +89,8 @@ public class EnvoyeurDeFichier {
 	private void modifierFichierCSV(String nomDuFichier, String[][] modification, int nbLigne) {
 
 		File fichierCSV = new File(main.getCheminDeFichier() + nomDuFichier);
-		try {
-			FileWriter fileWriter = new FileWriter(fichierCSV);
+
+		try (FileWriter fileWriter = new FileWriter(fichierCSV)) {
 			int i = 0;
 			while (i < nbLigne) {
 				String[] donnee = modification[i];
@@ -105,13 +105,11 @@ public class EnvoyeurDeFichier {
 				fileWriter.write(line.toString());
 				i++;
 			}
-
 			fileWriter.close();
 			Display.display("Fichier " + nomDuFichier + " modifié avec succès\n");
 		} catch (Exception e) {
-			Display.display("Erreur lors de la modification du fichier " + nomDuFichier);
+			Display.display(" Erreur fileWfriter : " + e);
 		}
-
 	}
 
 	public String toStringFichier(String[][] fichier, int nbPlan) {
