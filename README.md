@@ -8,14 +8,14 @@ Projet Java / Ocaml - Ingénierie des logiciels et utilisabilité 1 - Licence in
 
 Pour enclancher le logiciel principal, il faut run la classe 'Main' sur Eclipse. Pour enclancher les scenarios tests, il faut run la classe 'Scenarios' (dossier test).
 La mise a niveau des données ( exécutés par Ocaml ) n'est possible que sur Linux, cependant la persistance des données reste possible sur
-n'importe quel systeme d'exploitaton.	
+n'importe quel systeme d'exploitaton.	Une option "Guide" est présente dans le Menu principal pour exploquer le fonctionnement du logiciel.
 
 Tout le projet se trouve dans le dossier "Projet", les choses importantes à localiser sont :
 
-Le fichier 'class diagram.png' (source), qui contient un diagramme de classe simplifié du code contenue dans le dossier 'main' du dossier 'src' (source).
-Le script bash 'ExecuterOcaml.sh' ( source ) est exécuté  par Java a chaque lancement du code, pour lancer le code Ocaml.
-Le dossier 'src' (source) ( contenant les dossiers 'main' et 'test' ) qui stockent le code Java.
-Le dossier 'ocaml' (source) ( contenant entre autre les dossiers 'donnees' et 'src' ).
+Le fichier 'class diagram.png' (racine), qui contient un diagramme de classe simplifié du code contenue dans le dossier 'main' du dossier 'src' (racine).
+Le script bash 'ExecuterOcaml.sh' (racine) est exécuté  par Java a chaque lancement du code, pour lancer le code Ocaml.
+Le dossier 'src' (racine) ( contenant les dossiers 'main' et 'test' ) qui stockent le code Java.
+Le dossier 'ocaml' (racine) ( contenant entre autre les dossiers 'donnees' et 'src' ).
 Le dossiers 'donnees' (ocaml) stock tous les fichiers servant a la persistance, crées et modifiés en Java et Ocaml.
 Le dossier 'src' (ocaml) contient le code Ocaml ( regarder principalement le fichier 'main.ml' ).
                        		       
