@@ -19,6 +19,6 @@ Le dossier 'ocaml' (racine) ( contenant entre autre les dossiers 'donnees' et 's
 Le dossiers 'donnees' (ocaml) stock tous les fichiers servant a la persistance, crées et modifiés en Java et Ocaml.
 Le dossier 'src' (ocaml) contient le code Ocaml ( regarder principalement le fichier 'main.ml' ).
                        		       
-Lien de la video 
+                                                                                        https://youtu.be/kPt9MKkJrKw
 
 
