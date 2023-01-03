@@ -19,21 +19,23 @@
 
 ### Vidéo pour le rendu en ILU1
 
-<<<<<<< HEAD
 Lien : https://youtu.be/kPt9MKkJrKw
-=======
-Tout le projet se trouve dans le dossier "Projet", les choses importantes à localiser sont :
-
-Le fichier 'class diagram.png' (racine), qui contient un diagramme de classe simplifié du code contenue dans le dossier 'main' du dossier 'src' (racine).
-Le script bash 'ExecuterOcaml.sh' (racine) est exécuté  par Java a chaque lancement du code, pour lancer le code Ocaml.
-Le dossier 'src' (racine) ( contenant les dossiers 'main' et 'test' ) qui stockent le code Java.
-Le dossier 'ocaml' (racine) ( contenant entre autre les dossiers 'donnees' et 'src' ).
-Le dossiers 'donnees' (ocaml) stock tous les fichiers servant a la persistance, crées et modifiés en Java et Ocaml.
-Le dossier 'src' (ocaml) contient le code Ocaml ( regarder principalement le fichier 'main.ml' ).
-                       		       
-                                                                                        https://youtu.be/kPt9MKkJrKw
->>>>>>> 95d7fec26ba9fbfb4347ecbe1dd1fbe4347b2a4d
 
 ### Section Moodle dédiée au projet
 
 Lien ILU1 : https://moodle.univ-tlse3.fr/course/view.php?id=6128&section=25#tabs-tree-start
+
+### Tout le projet se trouve dans le dossier "2022-sema-projet-NoemGir", les choses importantes à localiser sont :
+
+Le fichier 'class diagram.png' (racine), qui contient un diagramme de classe simplifié du code contenue dans le dossier 'main' du dossier 'src' (racine). <br />
+Le script bash 'ExecuterOcaml.sh' (racine) est exécuté  par Java a chaque lancement du code, pour lancer le code Ocaml. <br />
+Le dossier 'src' (racine) ( contenant les dossiers 'main' et 'test' ) qui stockent le code Java. <br />
+Le dossier 'ocaml' (racine) ( contenant entre autre les dossiers 'donnees' et 'src' ). <br />
+Le dossiers 'donnees' (ocaml) stock tous les fichiers servant a la persistance, crées et modifiés en Java et Ocaml. <br />
+Le dossier 'src' (ocaml) contient le code Ocaml ( regarder principalement le fichier 'main.ml' ). <br />
+
+### Informations supplémentaires
+
+Pour enclancher le logiciel, appuyez sur le bouton RUN de la classe Main sur Eclipse. <br />
+La persistance des données est possible sur n'importe quel système d'exploitation, mais la mise à niveau des données ( Ocaml) n'est possible que sur un système d'exploitation Linux.  <br />
+Un guide d'utilisation et explication est accessible depuis le menu principal du code en cas de problème.  <br />
