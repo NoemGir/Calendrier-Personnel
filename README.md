@@ -7,7 +7,7 @@
 
 Lien : https://youtu.be/lJIe0oPjNmI
 
-## Vidéo pour le rendu ILU11
+## Vidéo pour le rendu ILU1
 
 Lien : https://youtu.be/rfjH3Z0ixnY
 
