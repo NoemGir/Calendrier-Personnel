@@ -1,97 +1,179 @@
 open Unix
 open Libcsv
 
+(*##############################------- DEFINITION DU MODULE -------#################################*)
 
-let current_year () =
+type date = {
+  annee : int;
+  mois : int ;
+  jour : int;
+  } ;;
+
+let annee_correct annee = annee > 0;;
+
+let mois_correct  mois =
+   mois >= 0 && mois < 12;;
+
+let annee_bissextile annee =
+  (annee mod 4 = 0 && annee mod 100 <> 0 ) ||
+    annee mod 400 = 0;;
+
+let jour_correct annee mois jour =
+  annee_correct annee &&
+  mois_correct mois &&
+  jour > 0 &&
+  match mois with
+  | 0 | 2 | 4 | 6 | 7 | 9 | 11 -> jour <= 31
+  | 3 | 5 | 8 | 10 -> jour <= 30
+  | 1 -> if annee_bissextile annee then jour <= 29 else jour <= 28
+  | _ -> failwith "mois donné incorrect";;
+
+
+ let mk_date annee mois jour =
+   if jour_correct annee mois jour
+   then  {annee  = annee;
+          mois  = mois;
+          jour = jour}
+   else let erreur =  Printf.sprintf "jour donne %d/%d/%d incorrect" jour mois annee in failwith erreur;;
+
+let get_annee date = date.annee ;;
+let get_mois date = date.mois ;;
+let get_jour date = date.jour;;
+
+
+let date_supperieure_egale date1 date2 =
+  let annee_date1, annee_date2 = get_annee date1, get_annee date2 in
+  annee_date1 > annee_date2 ||
+    let mois_date1, mois_date2 = get_mois date1, get_mois date2 in
+    annee_date1 = annee_date2 && mois_date1 > mois_date2 ||
+      let jour_date1, jour_date2 = get_jour date1, get_jour date2 in
+      annee_date1 = annee_date2 && mois_date1 = mois_date2 && jour_date1 >= jour_date2;;
+
+let afficher_date date =
+  Printf.sprintf "%d/%d/%d" (get_jour date) (get_mois date) (get_annee date);;
+
+
+(*##############################------- MISE A JOUR DU CALENDRIER -------#################################*)
+
+
+(* --------- initialisation date actuelle -------------*)
+
+
+let annee_actuelle =
   let tm = localtime (time ()) in
   tm.tm_year + 1900;;
 
-let current_month () =
+let mois_actuel =
   let tm = localtime (time ()) in
   tm.tm_mon;;
 
-let current_day () =
+let jour_actuel =
   let tm = localtime (time ()) in
   tm.tm_mday;;
 
-let jour_est_inferieur annee mois jour =
-  annee < current_year () ||
-  annee = current_year () && mois < current_month () ||
-  annee = current_year () && mois = current_month () && jour < current_day ();;
+let jour_actuel = mk_date annee_actuelle mois_actuel jour_actuel;;
 
-let rec recuperer_element l index = match l with
-  |[] -> failwith "liste vide"
-  |e :: rl -> if index = 0 then e else recuperer_element rl (index-1);;
+(* --------- etude de la ligne -------------*)
+
+let recuperer_element l index = List.nth l index;;
 
 let plan_est_correct plan =
   let annee = int_of_string (recuperer_element plan 0) in
   let mois =  int_of_string (recuperer_element plan 1) in
   let jour =  int_of_string (recuperer_element plan 2) in
-   not(jour_est_inferieur annee mois jour);;
-
-let rec enlever_lignes liste_liste_csv = match liste_liste_csv with
-  |[] -> []
-  |plan :: rl -> if plan_est_correct plan then plan :: enlever_lignes rl else
-                enlever_lignes rl ;;
+  let date_donnee = mk_date annee mois jour in
+  date_supperieure_egale date_donnee jour_actuel;;
 
 
-    (* prend une liste de liste de plan , le nom d'une categorie et la valeur a soustraire, recherche dans la liste la donnee avec la bonne categorie et soustrait la valeur dnnee
-au nombre associé a la categorie, renvoie une nouvelle double liste avec la valeure bien soustraite a la bonne categorie*)
-let rec enlever_une_valeur liste_liste_plan nom_de_la_categorie valeur_a_soustraire =
-  match liste_liste_plan with
-  | [] -> failwith "mauvais nom de categorie, celle-ci est introuvable";
-  | donnee :: rl -> let categorie, valeur = recuperer_element donnee 0, int_of_string (recuperer_element donnee 1) in
-                    if categorie = nom_de_la_categorie then let nouvelle_valeur = valeur - valeur_a_soustraire in
-                      [categorie; string_of_int nouvelle_valeur ] :: rl
-                    else donnee :: enlever_une_valeur rl nom_de_la_categorie valeur_a_soustraire
+(* --------- Vider le fichier plansSupprimes-------------*)
 
+let effacer_plansSupprimes () =
+  let output = Libunix.get_csv_file "plansSupprimes.csv" in
+  let csv' = [[]] in
+  let () = Format.printf "Suppression des éléments à l'intérieur du fichier %s\n" output in
+  Libcsv.save_csv output csv';;
 
-let rec est_un_evenement plan = recuperer_element plan 5 = "null"
+(* --------- sauvegarde de la tache retirée -------------*)
 
+let ajouter_plan_supprime liste_liste_csv plan = plan :: liste_liste_csv;;
 
-     (* prend une double liste de donnees et un plan qui sera incorrect, retourne la nouvelle double liste avec les valeurs correctes retirées  *) 
-let rec donnee_changee liste_liste_donnees plan =
-  let liste_un_plan_en_moins = enlever_une_valeur liste_liste_donnees "nbPlans" 1  in 
-  if est_un_evenement plan then
-    enlever_une_valeur liste_un_plan_en_moins "nbEvenements" 1 else
-    let nbSousTache = int_of_string (recuperer_element plan 6) in
-    enlever_une_valeur (enlever_une_valeur liste_un_plan_en_moins "nbTachesAFaire" 1) "nbTotalSousTachesAFaire" nbSousTache;;
+let afficher_plan plan = recuperer_element plan 3;;
 
+let fichier_a_part plan =
+  let output = Libunix.get_csv_file "plansSupprimes.csv" in
+  let csv = Libcsv.load_csv output in
+  let csv' = ajouter_plan_supprime csv plan in
+  let () = Format.printf "Ajout du plan %s dans: %s\n" (afficher_plan plan) output in
+  Libcsv.save_csv output csv';;
 
-     (* prend la double liste des donnees, la double liste des plans et parcours la double liste des plans, si le plan est incorrect, modifier la double liste des donnees,
-renvoie une nouvelle double liste de donnée qui correspondra au fichier 'csv *)
-let rec modifier_les_donnees liste_liste_donnees liste_liste_plan = match liste_liste_plan with
-  |[] -> liste_liste_donnees;
-  |plan :: rl ->  if plan_est_correct plan then modifier_les_donnees liste_liste_donnees rl   else
-                   modifier_les_donnees (donnee_changee liste_liste_donnees plan) rl  ;;
+let est_un_evenement plan = recuperer_element plan 6 = "null";;
 
+let mettre_a_part plan =
+  if est_un_evenement plan then () else  fichier_a_part plan;;
 
+(* ---------      parcours du csv     -------------*)
 
+let rec enlever_lignes liste_liste_csv =
+  List.fold_right (fun e r -> if plan_est_correct e then e :: r else let () =  mettre_a_part e in r) liste_liste_csv [];;
 
-
-
-let donnees_csv () =
-  let chemin_plan =  Libunix.get_example_file "listeDesPlanPrevu.csv" in
-  let  plan_csv = Libcsv.load_csv chemin_plan in
-  let chemin = Libunix.get_example_file "donnees.csv" in
-  let output = Libunix.get_example_file "nouvellesDonnees.csv" in
-  let csv = Libcsv.load_csv chemin in
-  let csv' = modifier_les_donnees csv plan_csv in
-  let nl, nc = Libcsv.lines_columns csv' in
-  let () = Format.printf "Ecriture d'un CSV de taille (%d x %d) dans: %s\n" nl nc output in
-  Libcsv.save_csv output csv'
-
-let main_csv () =
-  let chemin = Libunix.get_example_file "listeDesPlanPrevu.csv" in
-  let output = Libunix.get_example_file "nouvelleListeDesPlan.csv" in
+let mise_a_jour_csv () =
+  let () = effacer_plansSupprimes () in
+  let chemin = Libunix.get_csv_file "calendrier.csv" in
+  let output = Libunix.get_csv_file "calendrierMisAJour.csv" in
   let csv = Libcsv.load_csv chemin in
   let csv' = enlever_lignes csv in
   let nl, nc = Libcsv.lines_columns csv' in
   let () = Format.printf "Ecriture d'un CSV de taille (%d x %d) dans: %s\n" nl nc output in
   Libcsv.save_csv output csv'
 
+(*##############################------- RECUPERATION TACHES VOULUES-------#################################*)
 
-(* Exécute les procédures précédentes *)
 
-let () = donnees_csv ();;
-let () = main_csv ();;
+(* ---------Remplacer les horaires de toutes les tâches déplacées par 00h00  -------------*)
+
+let mettre_heure_0_sous_taches sousTachesString =
+  let sousTaches = String.split_on_char '~' sousTachesString in
+  let sousTachesModifiees = List.mapi (fun indice valeur -> if indice mod 4 = 2 then "00h00" else valeur ) sousTaches in
+  List.fold_right (fun e r -> if String.contains e '[' then String.cat e r else  String.concat e ["~";r]) sousTachesModifiees "" ;;
+
+
+let mettre_heure_0_plan plan = let sousTachesModifiees = mettre_heure_0_sous_taches (recuperer_element plan 7) in
+                               List.mapi (fun indice valeur -> if indice = 5 then "00h00" else if indice = 7 then sousTachesModifiees else valeur) plan ;;
+
+
+let mettre_heure_0 csv = List.map mettre_heure_0_plan csv;;
+
+(* ---------Ajouter les tâches gardées avec leur nouvelles dates aux tâches du calendrier  -------------*)
+
+let recuperer_aGarder () =
+  let chemin = Libunix.get_csv_file "aGarder.csv" in
+  let csv = Libcsv.load_csv chemin in
+  mettre_heure_0 csv;;
+
+let ajouter_plan liste_liste_csv = let a_garder = recuperer_aGarder () in
+                                   List.append liste_liste_csv a_garder ;;
+
+let ajouter_plans_csv () =
+  let output = Libunix.get_csv_file "calendrierMisAJour.csv" in
+  let csv = Libcsv.load_csv output in
+  let csv' = ajouter_plan csv in
+  let () = Format.printf "Ajout accompli des tâches récupérées dans %s\n" output in
+  Libcsv.save_csv output csv';;
+
+
+(*##############################------- CHOIX DU MODE -------#################################*)
+
+let lire_mode liste_liste_csv = if List.nth (List.nth liste_liste_csv 0) 0 = "mise a jour"
+                                then let () = Format.printf "Ocaml mode Mise à Jour" in
+                                     mise_a_jour_csv ()
+                                else let () = Format.printf "Ocaml mode Rajout" in
+                                  let () =  ajouter_plans_csv () in
+                                  effacer_plansSupprimes ();;
+
+let main () =
+  let csv_mode = Libunix.get_csv_file "mode.csv" in
+  let csv = Libcsv.load_csv csv_mode in
+  lire_mode csv;;
+
+let () = main ();;
+

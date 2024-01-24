@@ -1,41 +1,46 @@
-# ups-ilu-projet
+# UPS - Licence Info - ILU3
 
 ### NOM : GIREAUD
 ### Prénom : Noémie
 ### Groupe de TP :
-(Éditez ce README.md et remplacez `[ ]` par `[x]` (*x* minuscule) dans la bonne ligne ci-dessous)
 - [ ] A11
-- [ ] A12
-- [ ] A21
-- [ ] A22
-- [x] A31
-- [ ] A32
-- [ ] A41
-- [ ] A42
-- [ ] A51
-- [ ] A52
+- [x] A12
 - [ ] B11
 - [ ] B12
 
-### Vidéo pour le rendu en ILU1
+### Vidéo pour le rendu en ILU3
 
-Lien : https://youtu.be/kPt9MKkJrKw
+Lien : https://youtu.be/lJIe0oPjNmI
 
 ### Section Moodle dédiée au projet
 
-Lien ILU1 : https://moodle.univ-tlse3.fr/course/view.php?id=6128&section=25#tabs-tree-start
+Lien ILU3 : <https://moodle.univ-tlse3.fr/course/view.php?id=6119&section=17#tabs-tree-start>
 
-### Tout le projet se trouve dans le dossier "2022-sema-projet-NoemGir", les choses importantes à localiser sont :
+Lien direct vers le [cadrage du projet CC4 ILU3](https://moodle.univ-tlse3.fr/mod/resource/view.php?id=423538).
 
-Le fichier 'class diagram.png' (racine), qui contient un diagramme de classe simplifié du code contenue dans le dossier 'main' du dossier 'src' (racine). <br />
-Le script bash 'ExecuterOcaml.sh' (racine) est exécuté  par Java a chaque lancement du code, pour lancer le code Ocaml. <br />
-Le dossier 'src' (racine) ( contenant les dossiers 'main' et 'test' ) qui stockent le code Java. <br />
-Le dossier 'ocaml' (racine) ( contenant entre autre les dossiers 'donnees' et 'src' ). <br />
-Le dossiers 'donnees' (ocaml) stock tous les fichiers servant a la persistance, crées et modifiés en Java et Ocaml. <br />
-Le dossier 'src' (ocaml) contient le code Ocaml ( regarder principalement le fichier 'main.ml' ). <br />
 
-### Informations supplémentaires
+## A propos de l'application
 
-Pour enclancher le logiciel, appuyez sur le bouton RUN de la classe Main sur Eclipse. <br />
-La persistance des données est possible sur n'importe quel système d'exploitation, mais la mise à niveau des données ( Ocaml) n'est possible que sur un système d'exploitation Linux.  <br />
-Un guide d'utilisation et explication est accessible depuis le menu principal du code en cas de problème.  <br />
+- Pour lancer l'application, la classe LancementApplication lance avec le mode console tandis que la classe LancementApplicationUI lance avec l'interface graphique.
+- Attention ! Le mode console ne permet pas de récupérer les taches supprimées lors de la mise à jour Ocaml, ni de modifier ou d'activer les produits achetés !
+- Pour l'interface graphique, quand une date est demandée, il faut toujours répondre de la forme : numJour/numMois/annee, mçeme lorsque l'on soûhaite modifier la date d'un plan.
+- les fonctionnalités Ocaml sont compatibles sur Linux et Windows mais pas sur Mac.
+
+## Conseils
+
+- Éditer ce README.md en remplissant votre `NOM`, `Prénom`, et `Groupe de TP`  
+  (remplacer `[ ]` par `[x]` (*x* minuscule) dans la bonne ligne ci-dessus).
+- Vérifiez que vous disposez :
+  * d'un **Personal access token** (nécessaire pour «cloner» le dépôt GitHub en utilisant HTTPS),
+    que vous pouvez [générer sur github.com](https://github.com/settings/tokens/new) :
+    - Nommez votre token par exemple `UPS-ILU`
+    - Mettez comme date d'expiration le **31 août 2024**
+    - Cochez la case **`repo`**
+    - Et validez en cliquant sur `Generate token`
+    - *Notez bien votre token dans un endroit sécurisé, il jouera le rôle de mot de passe pour cloner tous vos dépôts privés*.
+  * **ou** d'une **Clé SSH** (nécessaire pour «cloner» le dépôt GitHub en utilisant SSH),
+    que vous pouvez [téléverser sur github.com](https://github.com/settings/key).
+- Clonez ce dépôt GitHub en utilisant un terminal (ou Git-Bash sous Windows) :  
+  `git clone https://github.com/UPS-ILU/...` (HTTPS)  
+  `git clone git@github.com:UPS-ILU/...` (SSH)
+- En cas de problème bloquant, utilisez le [forum Moodle ILU3](https://moodle.univ-tlse3.fr/mod/forum/view.php?id=300081).
